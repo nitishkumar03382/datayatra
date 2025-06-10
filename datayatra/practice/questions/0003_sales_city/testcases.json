@@ -1,0 +1,18 @@
+[
+    {
+      "setup": [
+       "drop table if exists sales;",
+        "create table sales(orderid int,customerid int, zipcode varchar(6),city varchar(255));",
+        "insert into sales values (1000,12,'804453','Patna');",
+        "insert into sales values (1000,12,'804453','Patna');",
+        "insert into sales values (1001,15,'123242','Dehradun');"
+        
+      ],
+      "query": "SELECT distinct city FROM sales",
+      "expected_result": [
+        {"city": "Dehradun"},
+        {"city": "Patna"}
+        
+      ]
+    }
+]

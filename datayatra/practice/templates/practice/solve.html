@@ -23,10 +23,10 @@
 </style>
 <div class="main bg-white flex">
 
-    <div class="description w-1/2 p-4">
-        <div class="all-unset">
+    <div class="description w-1/2 p-4 markdown prose">
+        
         {{question_description |safe}}
-        </div>
+        Tags: <label class="bg-slate-400 text-white rounded-sm p-1 ">{{question.tags}}</label>
     </div>
     <div class="code-section w-1/2 p-4">
         <form id="codeForm">
@@ -69,9 +69,12 @@
               
                 
             
-        
+            {% if request.user.is_authenticated %}
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Run</button>
             <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded hover:bg-blue-700">Submit</button>
+            {% else %}
+            <a href="{% url 'login' %}" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">🔐Login to run quries</a>
+            {% endif %}
         </form>
     
         <div class="output" id="resultDiv"></div>
@@ -83,6 +86,12 @@
 
 <script>
 
+document.getElementById("resultDiv").classList.add("bg-gray-100", "p-4", "rounded", "mt-4");
+// result div tables
+document.getElementById("resultDiv").classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'my-4');
+    // Add a scrollbar for long content
+    document.getElementById("resultDiv").style.overflowY = 'auto';
+    document.getElementById("resultDiv").style.maxHeight = '600px'; // Set a max height for the description div
 
 document.getElementById("codeForm").addEventListener("submit", function(e) {
     e.preventDefault();
@@ -100,13 +109,19 @@ document.getElementById("codeForm").addEventListener("submit", function(e) {
     })
     .then(response => response.json())
     .then(data => {
-    console.log(data.result)
-    console.log(data.columns);
+    // console.log(data.result)
+    // console.log(data.columns);
     
+    status_msg = document.createElement("h3");
+    if (data.status.code === 200) {
+        status_msg.classList.add("bg-green-600", "text-white", "p-2", "rounded", "mb-4", "font-semibold");
+    } else {
+        status_msg.classList.add( "bg-red-600", "text-white", "p-2", "rounded", "mb-4", "font-semibold");
+    }
+    status_msg.innerText = data.status.message;
     header = document.createElement("h2");
     header.innerText = "Output";
-    status_msg = document.createElement("h3");
-    status_msg.innerText = data.status.message;
+    
     // create table
     const table = document.createElement("table");
     const thead = document.createElement("thead");
@@ -129,6 +144,14 @@ document.getElementById("codeForm").addEventListener("submit", function(e) {
     });
     table.appendChild(thead);
     table.appendChild(tbody);
+    // Add classes to the table for styling
+    table.classList.add('min-w-full', 'border-collapse', 'border', 'border-gray-300', 'rounded-lg', 'shadow-md', 'my-4');
+    table.querySelectorAll('th').forEach(th => {
+        th.classList.add('px-4', 'py-2', 'bg-gray-200', 'text-left', 'font-semibold');
+    });
+    table.querySelectorAll('td').forEach(td => {
+        td.classList.add('px-4', 'py-1', 'border-t', 'border-gray-300');
+    });
     // Expected output table
     const expectedTable = document.createElement("table");
     const expectedThead = document.createElement("thead");
@@ -151,6 +174,14 @@ document.getElementById("codeForm").addEventListener("submit", function(e) {
     });
     expectedTable.appendChild(expectedThead);
     expectedTable.appendChild(expectedTbody);
+    // Add classes to the table for styling
+    expectedTable.classList.add('min-w-full', 'border-collapse', 'border', 'border-gray-300', 'rounded-lg', 'shadow-md', 'my-4');
+    expectedTable.querySelectorAll('th').forEach(th => {
+        th.classList.add('px-4', 'py-2', 'bg-gray-300', 'text-left', 'font-semibold');
+    });
+    expectedTable.querySelectorAll('td').forEach(td => {
+        td.classList.add('px-4', 'py-1', 'border-t', 'border-gray-400');
+    });
     // Append the output table and expected output table to the resultDiv
     document.getElementById("resultDiv").innerHTML = ""; // Clear previous results
     document.getElementById("resultDiv").appendChild(header); // Append the header
@@ -165,6 +196,11 @@ document.getElementById("codeForm").addEventListener("submit", function(e) {
     console.error("Error:", error);
     });
 });
+
+
+
+
+
 
 // CSRF helper
 function getCookie(name) {

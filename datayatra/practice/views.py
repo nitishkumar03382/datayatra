@@ -9,6 +9,7 @@ from django.http import Http404
 from .utils import markdown_to_html
 from .utils import checktestcase
 from .models import Question, Submisson
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     """
@@ -26,9 +27,20 @@ def index(request):
     context = {'question_description': question_description}
     return render(request, 'practice/index.html', context)
 
-
+@login_required
 def run_code(request, qid):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User not authenticated"}, status=401)
     if request.method == "POST":
+        p_error = False
+        user_op = []
+        tc_op = []
+        result = []
+        tc_result = []
+        columns = []
+        tc_columns = []
+        p_status = {}
+        status = {}
         user_input = request.POST.get("user_code")
         question = get_object_or_404(Question, qid=qid)
         testcase_path = question.get_testcase_path()
@@ -49,10 +61,17 @@ def run_code(request, qid):
 
             # Execute user input query
             print(f"Executing user input query...")
-            cursor.execute(user_input)
-            result = cursor.fetchall()
-            columns = [desc[0] for desc in cursor.description]
-            user_op = [dict(zip(columns, row)) for row in result]
+            try:
+                cursor.execute(user_input)
+                result = cursor.fetchall()
+                columns = [desc[0] for desc in cursor.description]
+                user_op = [dict(zip(columns, row)) for row in result]
+            except Exception as e:
+                print(f"Error executing user query: {e}")
+                p_error = True
+                p_status = {"status": "error", "message": str(e), "code":400}
+                p_context = {"status": p_status}
+                
             # Test case query execution
             print("Executing test case query...")
             cursor.execute(test_cases[0]['query'])
@@ -67,14 +86,19 @@ def run_code(request, qid):
             status = {"status": "success", "message": "Test case passed."}
         elif sorted(result) == sorted(tc_result) and columns == tc_columns and is_ordered == False:
             print("Test case passed.")
-            status = {"status": "success", "message": "Test case passed."}
+            status = {"status": "success", "message": "Test case passed ✅", "code":200}
         else:
             print("Test case failed.")
-            status = {"status": "error", "message": "Test case failed."}
-        
-        context = {"result": result, "columns": columns,
+            status = {"status": "error", "message": "Test case failed ❌", "code":400}
+        if p_error:
+            context = {"result": result, "columns": columns,
                    "tc_result": tc_result, "tc_columns": tc_columns,
-                   "status": status}
+                   "status": p_status}
+        else:
+            context = {"result": result, "columns": columns,
+                    "tc_result": tc_result, "tc_columns": tc_columns,
+                    "status": status}
+        
         return JsonResponse(context)
 
 def question_list(request):

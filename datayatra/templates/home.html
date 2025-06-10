@@ -7,10 +7,7 @@
 {% block content %}
     <!-- <img src="{% static 'images/logo_white_bg.jpg' %}" alt="Image"> -->
     <h1 class="font-bold">Datayatra </h1>
-    <p></p>
-    {% if user.is_authenticated %}
-    <p>Hello, {{ user.username }}! You are logged in.</p>
-    {% else %}
-    <p>You are not logged in. Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'signup' %}">signup</a>.</p>
-    {% endif %}
+    <p class="text-center text-lg text-gray-700">Welcome to Data Yatra, your journey into the world of data science and Engineering</p>
+    <img src="{% static 'images/logo_white_bg.jpg' %}" alt="Image" class="w-1/2 mx-auto my-8 rounded-lg shadow-lg">
+    
 {% endblock %}

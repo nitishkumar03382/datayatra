@@ -41,10 +41,14 @@ INSTALLED_APPS = [
     'practice',  # This is the coding app
     'tailwind',  # Tailwind CSS for styling
     'theme',  # Custom theme for Tailwind
+    'course',  # Course management app
 
 
     'django_browser_reload',  # For live reloading during development
 ]
+
+
+
 TAILWIND_APP_NAME = 'theme'  # Name of the Tailwind app
 INTERNAL_IPS = ['127.0.0.1']  # For development purposes, allows internal IPs to access the app
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"  # Path to npm, adjust if necessary

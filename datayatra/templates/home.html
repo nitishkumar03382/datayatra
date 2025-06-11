@@ -5,9 +5,78 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <!-- <img src="{% static 'images/logo_white_bg.jpg' %}" alt="Image"> -->
-    <h1 class="font-bold">Datayatra </h1>
-    <p class="text-center text-lg text-gray-700">Welcome to Data Yatra, your journey into the world of data science and Engineering</p>
-    <img src="{% static 'images/logo_white_bg.jpg' %}" alt="Image" class="w-1/2 mx-auto my-8 rounded-lg shadow-lg">
+    <!-- Hero Section -->
+    <section 
+    class="flex items-center justify-center p-4 bg-white bg-opacity-90">
+        <div 
+            class="text-center px-8 py-12 max-w-3xl border-8 border-white rounded-lg shadow-lg bg-black bg-opacity-95"
+             style="background-image: url('https://www.transparenttextures.com/patterns/black-paper.png');">
+            <h1 class="text-5xl font-bold text-white font-[Patrick Hand]">Master Data Stacks Like a Pro!</h1>
+            <p class="mt-4 text-xl text-gray-300 font-[Patrick Hand]">
+                Learn Data Science, Machine Learning, and more with hands-on coding challenges.
+            </p>
+            
+            <a href="{% url 'practice:question_list' %}" 
+               class="mt-6 inline-block px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition duration-300">
+                Start Practicing Now! 📝
+            </a>
+        </div>
+    </section>
+
+
+    <!-- About Section -->
+    <section class="py-12 px-6">
+        <h2 class="text-3xl font-semibold text-center">About Our Platform</h2>
+        <p class="mt-4 text-center text-gray-600 max-w-lg mx-auto">
+            A hands-on coding environment that helps developers sharpen their skills with real-world problems.
+        </p>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="py-12 px-6 bg-gray-200">
+        <h2 class="text-3xl font-semibold text-center">Explore Our Courses</h2>
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold">Python Basics</h3>
+                <p class="mt-2 text-gray-600">Learn Python step-by-step with interactive exercises.</p>
+                <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                    Start Learning
+                </button>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold">JavaScript Mastery</h3>
+                <p class="mt-2 text-gray-600">Enhance your frontend skills with practical JS projects.</p>
+                <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                    Start Learning
+                </button>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold">SQL for Data Analysis</h3>
+                <p class="mt-2 text-gray-600">Master querying databases with SQL challenges.</p>
+                <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                    Start Learning
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-12 px-6">
+        <h2 class="text-3xl font-semibold text-center">Why Choose Us?</h2>
+        <div class="mt-8 flex flex-wrap justify-center gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center w-64">
+                <h3 class="text-xl font-bold">Live Coding</h3>
+                <p class="mt-2 text-gray-600">Write and execute code in real-time.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center w-64">
+                <h3 class="text-xl font-bold">Coding Challenges</h3>
+                <p class="mt-2 text-gray-600">Solve problems and improve skills.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center w-64">
+                <h3 class="text-xl font-bold">Community Support</h3>
+                <p class="mt-2 text-gray-600">Get help and learn with peers.</p>
+            </div>
+        </div>
+    </section>
     
 {% endblock %}

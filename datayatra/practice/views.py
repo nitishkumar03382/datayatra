@@ -10,6 +10,7 @@ from .utils import markdown_to_html
 from .utils import checktestcase
 from .models import Question, Submisson
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     """
@@ -118,6 +119,25 @@ def question_list(request):
             'updated_at': question.updated_at
         })
     return render(request, 'practice/question_list.html', {'questions': question_list})
+@csrf_exempt
+def submit_code(request, qid):
+    print("Received code submission")
+    if request.method == "POST":
+        data = json.loads(request.body)
+        code = data.get("code")
+        user = request.user
+        question = get_object_or_404(Question, qid=qid)
+        if not code:
+            return JsonResponse({"error": "No code provided"}, status=400)
+        # Save the submission
+        submission = Submisson.objects.create(
+            user=user,
+            question=question,
+            code=code
+        )
+        submission.save()
+        return JsonResponse({"message": "Code submitted successfully", "submission_id": submission.id}, status=201)
+
 
 def solve(request, qid):
     """

@@ -1,0 +1,25 @@
+[
+    {
+      "setup": [
+      "drop table if exists patient_visits;",
+      "CREATE TABLE patient_visits (visit_id INT, patient_id INT, doctor_id INT, visit_date DATE, department VARCHAR(50), diagnosis_code VARCHAR(10));",
+      "INSERT INTO patient_visits VALUES (1, 1001, 201, '2024-01-01', 'Cardiology', 'C01');",
+      "INSERT INTO patient_visits VALUES (2, 1002, 202, '2024-01-02', 'Cardiology', 'C02');",
+      "INSERT INTO patient_visits VALUES (3, 1002, 203, '2024-01-05', 'Cardiology', 'C03');",
+      "INSERT INTO patient_visits VALUES (4, 1003, 204, '2024-01-07', 'Neurology', 'N01');",
+      "INSERT INTO patient_visits VALUES (5, 1031, 205, '2024-02-10', 'Cardiology', 'C02');",
+      "INSERT INTO patient_visits VALUES (6, 1031, 206, '2024-02-15', 'Cardiology', 'C03');",
+      "INSERT INTO patient_visits VALUES (7, 1105, 207, '2024-03-01', 'Cardiology', 'C05');",
+      "INSERT INTO patient_visits VALUES (8, 1105, 207, '2024-03-02', 'Cardiology', 'C05');",
+      "INSERT INTO patient_visits VALUES (9, 1001, 201, '2024-03-05', 'Oncology', 'O01');"
+        
+      ],
+      "query": "SELECT patient_id FROM (SELECT DISTINCT patient_id, visit_date FROM patient_visits WHERE department = 'Cardiology') AS cardiology_visits GROUP BY patient_id HAVING COUNT(*) > 1",
+      "expected_result": [
+        {"patient_id": 1002},
+        {"patient_id": 1031},
+        {"patient_id": 1105}
+        
+      ]
+    }
+]

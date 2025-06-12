@@ -9,7 +9,7 @@ def index(request):
 
 def course_detail(request):
     # read md file from a dir
-    filepath = "./course/Dy_courses/Python/chepter1.md"
+    filepath = "./course/Dy_courses/Python/introduction_to_python.md"
     with open(filepath, 'r', encoding='utf-8') as f:
         md_text = f.read()
     # convert md to html

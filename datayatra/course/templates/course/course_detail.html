@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div 
+class="prose mx-auto p-6 bg-white bg-opacity-90 shadow-lg rounded-lg">
+    {{ course_content | safe }}
+</div>
 
-{{ course_content | safe }}
 
 {% endblock %}
 

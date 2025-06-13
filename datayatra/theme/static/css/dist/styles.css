@@ -1292,6 +1292,10 @@ select {
   position: static;
 }
 
+.m-4 {
+  margin: 1rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -1487,6 +1491,14 @@ select {
 
 .overflow-x-auto {
   overflow-x: auto;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
+.scroll-auto {
+  scroll-behavior: auto;
 }
 
 .rounded {

@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, StreamingHttpResponse
 from django.http import JsonResponse
 from django.db import connection
 import json
@@ -11,6 +11,47 @@ from .utils import checktestcase
 from .models import Question, Submisson
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+import time
+
+
+
+def checktestcase(user_code, query, setup, i):
+    """
+    Check User code against test cases.
+    """
+    columns, result, user_op = [], [], []
+
+    with connection.cursor() as cursor:
+        # run setup queries
+        for qry in setup:
+            if not qry.strip():
+                continue
+            cursor.execute(qry)
+        # run user code
+        try:
+            cursor.execute(user_code)
+            result = cursor.fetchall()
+            columns = [desc[0] for desc in cursor.description]
+            user_op = [dict(zip(columns, row)) for row in result]
+        except Exception as e:
+            print(f"Error executing user query: {e}")
+            return {"status": "error", "message": f"Error in Testcase {i}" + str(e), "code": 400}
+    # run test case query
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        tc_result = cursor.fetchall()
+        tc_columns = [desc[0] for desc in cursor.description]
+        tc_op = [dict(zip(tc_columns, row)) for row in tc_result]
+    # check if user output matches test case output
+    is_ordered = False  # Set to True if order matters
+    if user_op == tc_op and is_ordered:
+        return {"status": "success", "message": f"Test case {i} passed ✅", "code": 200}
+    elif sorted(result) == sorted(tc_result) and columns == tc_columns and not is_ordered:
+        return {"status": "success", "message": f"Test case {i} passed ✅", "code": 200}
+    else:
+        return {"status": "error", "message": f"Test case {i} failed ❌", "code": 400}
+    
+
 
 def index(request):
     """
@@ -101,6 +142,32 @@ def run_code(request, qid):
                     "status": status}
         
         return JsonResponse(context)
+@csrf_exempt
+@login_required
+def submit_code(request, qid):
+    if request.method == 'POST':
+        user_code = request.POST.get('user_code', '')
+        if not user_code:
+            return JsonResponse({"error": "No code provided"}, status=400)
+        print(f"Received code for question {qid}: {user_code[:50]}...")  # Log first 50 characters for brevity
+        question = get_object_or_404(Question, qid=qid)
+        tc_filepath = question.get_testcase_path()  
+        print(f"Loading test cases from: {tc_filepath}")
+        with open(tc_filepath, 'r', encoding='utf-8') as f:
+            test_cases = json.load(f)
+        test_case_results = []
+        i = 1
+        for test_case in test_cases:
+            check_result = checktestcase(user_code, test_case['query'], test_case['setup'], i)
+            print(f"Test case {i} result: {check_result}")
+            if check_result['status'] == 'error':
+                return JsonResponse(check_result)
+            test_case_results.append(check_result)
+            i += 1
+        context = {
+            'test_case_results': test_case_results
+        }
+    return JsonResponse(context)
 
 def question_list(request):
     """
@@ -119,24 +186,7 @@ def question_list(request):
             'updated_at': question.updated_at
         })
     return render(request, 'practice/question_list.html', {'questions': question_list})
-@csrf_exempt
-def submit_code(request, qid):
-    print("Received code submission")
-    if request.method == "POST":
-        data = json.loads(request.body)
-        code = data.get("code")
-        user = request.user
-        question = get_object_or_404(Question, qid=qid)
-        if not code:
-            return JsonResponse({"error": "No code provided"}, status=400)
-        # Save the submission
-        submission = Submisson.objects.create(
-            user=user,
-            question=question,
-            code=code
-        )
-        submission.save()
-        return JsonResponse({"message": "Code submitted successfully", "submission_id": submission.id}, status=201)
+
 
 
 def solve(request, qid):

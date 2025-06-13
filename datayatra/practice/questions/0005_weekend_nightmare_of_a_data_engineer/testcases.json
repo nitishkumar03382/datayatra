@@ -1,0 +1,19 @@
+[
+    {
+      "setup": [
+       "drop table if exists etl_scheduler ;",
+       "CREATE TABLE etl_scheduler (job_name VARCHAR(100), schedule_time VARCHAR(100));",
+       "INSERT INTO etl_scheduler VALUES ('daily_sales', '0 2 * * *');",
+      "INSERT INTO etl_scheduler VALUES ('weekend_run', '30 1 * * 0');",
+      "INSERT INTO etl_scheduler VALUES ('weekly_sync', '45 3 * * 6');",
+      "INSERT INTO etl_scheduler VALUES ('full_backup', '0 0 * * 1');",
+      "INSERT INTO etl_scheduler VALUES ('log_cleanup', '0 4 * * 0,6');"
+        
+      ],
+      "query": "SELECT job_name FROM etl_scheduler WHERE TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(schedule_time, ' ', 5),' ', -1)) REGEXP '(^|,)(0|6)(,|$)';",
+      "expected_result": [
+        
+
+      ]
+    }
+]

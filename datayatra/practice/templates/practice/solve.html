@@ -13,7 +13,7 @@
     #editor-container {
       width: 100%;
       height: 300px;
-      border: 1px solid #ccc;
+      
     }
     .all-unset {
         all: unset;
@@ -56,14 +56,16 @@
               <br><br>
               
               <!-- Editor container -->
-              <div id="editor-container">
+              <div id="editor-container" class="font-handwriting">
                 <textarea 
                 name="user_code" 
-                id="user_code" 
+                id="user_code"
                 rows="14"
                 placeholder="Write your code here..."
-                class="w-full h-full resize-none p-4 text-sm font-mono rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            </textarea>
+                class="w-full h-full resize-none p-4  text-lg rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      bg-black bg-opacity-90 text-white  shadow-lg
+                      scroll-auto custom-scrollbar"
+                      style="background-image: url('https://www.transparenttextures.com/patterns/black-paper.png');"></textarea>
               </div>
             <br>
               
@@ -214,28 +216,36 @@ document.getElementById("codeForm").addEventListener("submit", function(e) {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            const resultSection = document.getElementById("result-section");
-            resultSection.innerHTML = ""; // Clear previous results
-            if (data.status.code === 200) {
-                const successMsg = document.createElement("p");
-                successMsg.classList.add("text-green-600", "font-semibold");
-                successMsg.innerText = data.status.message;
-                resultSection.appendChild(successMsg);
-            } else {
-                const errorMsg = document.createElement("p");
-                errorMsg.classList.add("text-red-600", "font-semibold");
-                errorMsg.innerText = data.status.message;
-                resultSection.appendChild(errorMsg);
+            if (data.code === 400) {
+                status_msg = document.createElement("h3");
+                status_msg.classList.add( "bg-red-600", "text-white", "p-2", "rounded", "mb-4", "font-semibold");
+                status_msg.innerText = data.message;
+                header = document.createElement("h2");
+            header.innerText = "Output";
+            result_op = document.getElementById("resultDiv");
+            result_op.innerHTML = ""; // Clear previous results
+            result_op.appendChild(header); // Append the header
+            result_op.appendChild(status_msg); // Append the status message
+
+            } 
+            else {
+                test_case_container = document.createElement("div");
+                test_case_container.classList.add("bg-gray-100", "p-4", "rounded", "mt-4");
+                data.test_case_results.forEach(tc => {
+                    console.log(tc);
+                    status_msg = document.createElement("h3");
+                    status_msg.innerText = tc.message;
+                    test_case_container.appendChild(status_msg); // Append the status message for each test case
+                });
+                result_op = document.getElementById("resultDiv");
+                result_op.innerHTML = ""; // Clear previous results
+                result_op.appendChild(test_case_container); // Append the test case results container
             }
+            
+            
         })
-        .catch(error => {
-            console.error("Error:", error);
-        });
     } // END OF SUBMIT-BTN
 });
-
-
-
 
 
 

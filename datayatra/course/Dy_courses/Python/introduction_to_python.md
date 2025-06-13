@@ -5,7 +5,7 @@
 ## 🧩 Introduction
 Python is one of the most popular and beginner-friendly programming languages today. Known for its clean syntax and readability, it is widely used in web development, data analysis, machine learning, automation, and more. Python was created by **Guido van Rossum** and first released in **1991**.
 
-## 🌍 It is used for:
+## 🌍 Python is Everywhere:
 - Web development
 - Machine learning and AI 
 - Automation and scripting

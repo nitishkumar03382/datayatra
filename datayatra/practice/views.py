@@ -1,7 +1,8 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse, StreamingHttpResponse
 from django.http import JsonResponse
-from django.db import connection
+from django.db import connection, connections
+import sqlite3
 import json
 import markdown
 import os
@@ -20,8 +21,9 @@ def checktestcase(user_code, query, setup, i):
     Check User code against test cases.
     """
     columns, result, user_op = [], [], []
-
-    with connection.cursor() as cursor:
+    conn = sqlite3.connect(':memory:')  # Use in-memory SQLite database for testing
+    connection = conn
+    with connections['sandbox'].cursor() as cursor:
         # run setup queries
         for qry in setup:
             if not qry.strip():
@@ -37,7 +39,7 @@ def checktestcase(user_code, query, setup, i):
             print(f"Error executing user query: {e}")
             return {"status": "error", "message": f"Error in Testcase {i}" + str(e), "code": 400}
     # run test case query
-    with connection.cursor() as cursor:
+    with connections['sandbox'].cursor() as cursor:
         cursor.execute(query)
         tc_result = cursor.fetchall()
         tc_columns = [desc[0] for desc in cursor.description]
@@ -91,7 +93,8 @@ def run_code(request, qid):
         tc_filepath = question.get_testcase_path()
         with open(tc_filepath, 'r', encoding='utf-8') as f:
             test_cases = json.load(f)
-        with connection.cursor() as cursor:
+        
+        with connections['sandbox'].cursor() as cursor:
             #execute test case setup
             setup_qry = test_cases[0]['setup']
             print(f"Executing setup query: {setup_qry}")

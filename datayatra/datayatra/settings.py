@@ -98,6 +98,14 @@ DATABASES = {
         'PASSWORD': '0404',
         'HOST': 'localhost',  # or IP/hostname
         'PORT': '3306',        # default MySQL port
+    },
+    'sandbox': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sandbox',
+        'USER': 'root',
+        'PASSWORD': '0404',
+        'HOST': 'localhost',  # or IP/hostname
+        'PORT': '3306',        # default MySQL port
     }
 }
 

@@ -1,17 +1,17 @@
 
-# 📘 Chapter 1: Introduction to Python
+# 📘 Introduction to Python
 
 
 ## 🧩 Introduction
 Python is one of the most popular and beginner-friendly programming languages today. Known for its clean syntax and readability, it is widely used in web development, data analysis, machine learning, automation, and more. Python was created by **Guido van Rossum** and first released in **1991**.
 
-## 🌍 Python is Everywhere:
+## 🌍 It is used for:
 - Web development
-- Machine learning and AI 
+-  Machine learning and AI 
 - Automation and scripting
 - Game development
 - Desktop applications
-- Scientific Research
+- mathematics
 
 
 ## 🚀 Why Learn Python?
@@ -20,7 +20,7 @@ Python is not just a programming language — it's a tool that powers websites, 
 
 
 
-## 🔑 Key Features of Python:
+### 🔑 Key Features of Python:
 - Simple and easy-to-read syntax  
 - python works on **Windows,Mac,Linux,** etc.  
 - Extensive standard library  
@@ -31,28 +31,21 @@ Python is often recommended as the **first programming language** for beginners 
 
 ## 💻 Code Examples
 
-
-**This is a simple Python program to print "Hello, World!"**
-
-<pre>
-
-print("Hello, World!")
->>Hello, World
-
-print(5+3)
->>8
-</pre>
-
-**Variable Usage**
-<pre>
-name="python"
-print("welcome to", name)
-#Output: Welcome to python
-</pre>
+>```
+># This is a simple Python program to >print "Hello, World!"
+>print("Hello, World!")
+># Math Operations
+>print(5+3)
+># Output:8   
+>#Variable Usage
+>name="python"
+>print("welcome to", name)    
+># Output: Welcome to python
+>```
 
 ## 📺 YouTube Video
 
 ####  watch the video
 ![youtube]()
 
-[next](python_chapter_2_install)
+

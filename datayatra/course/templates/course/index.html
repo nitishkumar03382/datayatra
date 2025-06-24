@@ -1,11 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses</title>
+  
 </head>
-<body>
-    hii
-</body>
-</html>
+
+
+  {% if data %}
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-gray-100 min-h-screen">
+    {% for course in data %}
+        <div class="bg-white rounded-2xl shadow-md hover:shadow-[0_0_20px_4px_rgba(59,130,246,0.4)] transition-all duration-300 p-6 group relative  flex flex-col justify-between" style="height: 250px;">
+            
+            
+            <!-- Course Title -->
+            <h2 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition">
+                {{ course.course_name }}
+            </h2>
+            
+            <!-- Description -->
+            <p class="text-gray-600 text-sm line-clamp-3 ">
+                
+                {{ course.course_desc }}
+            </p>
+            
+           
+
+            <!-- Enroll Button -->
+            <a href="{% url 'course:course_detail' course.course_id 0 %}" class="inline-block mt-4 bg-slate-700 text-white px-4 py-2 rounded-lg text-sm hover:bg-slate-900 transition text-center">
+                Start Now
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+    
+  {% else %}
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">No Courses Available</h1>
+        <p class="text-gray-700">Please check back later for new courses.</p>
+    </div>
+  {% endif %}
+
+{% endblock %}

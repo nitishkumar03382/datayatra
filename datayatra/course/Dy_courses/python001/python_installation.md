@@ -23,8 +23,3 @@ Before you start writing Python code, you need to install Python on your system 
    ```
 
 ## 📺 YouTube
-
-[previous](python_chapter_1_introduction)
-
-
-[Next]()

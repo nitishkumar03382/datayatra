@@ -1,11 +1,38 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
-<div 
-class="prose mx-auto p-6 bg-white bg-opacity-90 shadow-lg rounded-lg">
-    {{ course_content | safe }}
+
+<div class="flex">
+
+    <!-- Sidebar for chapters -->
+    <aside class="w-1/4 bg-gray-100 p-4 max-h-full overflow-y-auto shadow-md">
+        <h2 class="text-xl font-bold mb-4">Chapters</h2>
+        <ul class="space-y-2">
+            {% for chapter in chapters %}
+                <li>
+                    <a href="{% url 'course:course_detail' course_id chapter.chapter_order %}"
+                       class="{% if chapter.chapter_order == chapter_order %}text-blue-700 font-semibold{% else %}text-gray-700{% endif %} hover:underline">
+                        {{ chapter.chapter_name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </aside>
+
+    <!-- Main content -->
+    <div class="w-3/4 p-6 bg-white shadow rounded">
+        <div class="prose max-w-none ">
+            {{ course_content|safe }}
+        </div>
+        {% if chapter_order > 0 %}
+            <a href="{% url 'course:course_detail' course_id chapter_order|add:'-1' %}" class="text-blue-600 hover:underline">← Prev</a>
+        {% endif %}
+        <a href="{% url 'course:course_detail' course_id chapter_order|add:'1' %}" class="text-blue-600 hover:underline">Next →</a>
+           
+        
+    </div>
 </div>
-
-
 {% endblock %}
+
 

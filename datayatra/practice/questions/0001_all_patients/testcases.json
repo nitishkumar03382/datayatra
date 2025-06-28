@@ -6,7 +6,6 @@
         "insert into patient values (1,'Jhon Doe',96);",
         "insert into patient values (2,'Krish Jay',99);",
         "insert into patient values (4,'Herman Sen',099);"
-        
       ],
       "query": "SELECT * FROM patient",
       "expected_result": [

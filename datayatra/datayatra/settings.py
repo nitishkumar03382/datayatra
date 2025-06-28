@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import mysql.connector
 import os
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,9 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'practice',  # This is the coding app
+    'blog',  # Blog app for articles and posts
     'tailwind',  # Tailwind CSS for styling
     'theme',  # Custom theme for Tailwind
     'course',  # Course management app
+    "crispy_forms",
+    "crispy_bootstrap4",
 
 
     'django_browser_reload',  # For live reloading during development
@@ -141,8 +146,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 

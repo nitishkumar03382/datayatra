@@ -1,4 +1,5 @@
 {% load static %}
+
 {% load static tailwind_tags %}
 
 
@@ -8,6 +9,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -52,6 +54,7 @@
         <a href="{% url 'home' %}" class="hover:underline hover:text-gray-300">🏠 Home</a>
         <a href="{% url 'practice:question_list' %}" class="hover:underline hover:text-gray-300">📝 Practice</a>
         <a href="{% url 'course:index' %}" class="hover:underline hover:text-gray-300">📚 Courses</a>
+        <a href="{% url 'blog:index' %}" class="hover:underline hover:text-gray-300">>Blogs</a>
         {% if request.user.is_authenticated %}
           <a href="{% url 'logout' %}" class="hover:underline hover:text-red-300">🔓 Logout</a>
         

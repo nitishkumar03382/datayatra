@@ -13,6 +13,7 @@ class Question(models.Model):
         ('Medium', 'Medium'),
         ('Hard', 'Hard'),
     ]
+    
     qid = models.CharField(max_length=100, primary_key=True)
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=20, choices=QUESTION_TYPES)
@@ -29,10 +30,15 @@ class Question(models.Model):
         return f"{self.title} [{self.category}]"  # Display title and category in admin panel
 
 class Submisson(models.Model):
+    STATUS_CHOICES = [
+        ('Solved', 'Solved'),
+        ('Unsolved', 'Unsolved'),
+        ('Attempted', 'Attempted')
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     code = models.TextField()
-    result = models.JSONField(blank=True, null=True)
+    status = models.CharField(max_length=20, default='Unsolved', choices=STATUS_CHOICES)
     is_passed = models.BooleanField(default=False)
     submitted_at = models.DateTimeField(auto_now_add=True)
 

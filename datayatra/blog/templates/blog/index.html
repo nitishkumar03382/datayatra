@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<style>
+  body {
+    background: linear-gradient(135deg, #fff1f9, #ffe3ec);
+    font-family: 'Patrick Hand', cursive;
+  }
+
+  h1.text-primary {
+    color: #352d30;
+    font-weight: bold;
+    font-size: 2.5rem;
+  }
+
+  .blog-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #f8bbd0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .blog-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(216, 27, 96, 0.3);
+  }
+
+  .blog-title {
+    color: #2a2225;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .blog-title:hover {
+    color: #625b5e;
+    text-decoration: underline;
+  }
+
+  .blog-date {
+    display: inline-block;
+    background: #f48fb1;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .text-justify {
+    text-align: justify;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  .github-btn {
+    background: linear-gradient(45deg, #756789, #333333);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+
+  .github-btn:hover {
+    background: linear-gradient(45deg, #333333, #6e5494);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .view-more-btn {
+    background: linear-gradient(90deg, #ff80ab, #ae657e);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .view-more-btn:hover {
+    background: linear-gradient(90deg, #c88fa2, #ff80ab);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .blog-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-1 pt-2">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-primary">All Blog Posts</h1>
+    <a href="{% url 'blog:create_blog' %}" class="btn btn-primary">
+      ➕ Create New Post
+    </a>
+  </div>
+
+  {% for blog in blogs %}
+    <div class="card blog-card shadow mb-4 p-3">
+      <div class="card-body">
+        <div class="row">
+          <!-- TODO: Implement In future -->
+          <!-- <div class="col-md-4 mb-3 mb-md-0">
+            {% if blog.image %}
+              <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="blog-image">
+            {% else %}
+              <img src="https://via.placeholder.com/300x200" alt="No image available" class="blog-image">
+            {% endif %}
+          </div>  -->
+          <div class="col-md-8">
+            <span class="blog-date">{{ blog.date_created|date:"d M Y" }}</span>
+            <h3>
+              <a class="blog-title" href="#">{{ blog.title }}</a>
+            </h3>
+            <p class="text-justify my-3">
+              {{ blog.content|truncatewords:30 }}
+            </p>
+            {% if blog.github_link %}
+              <a href="{{ blog.github_link }}" target="_blank" class="github-btn">
+                💻 View on GitHub
+              </a>
+            {% endif %}
+            <a href="#" class="view-more-btn mt-2">🔎 View More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No blog posts yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

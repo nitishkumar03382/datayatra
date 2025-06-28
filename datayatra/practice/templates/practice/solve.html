@@ -21,12 +21,29 @@
     }
 
 </style>
-<div class="main bg-white flex">
 
-    <div class="description w-1/2 p-4 markdown prose">
+
+<div class="main bg-white flex flex-row">
+    <div class=" w-1/2 p-4 flex-col">
+    <div class="flex flex-row justify-between p-2 mr-6 items-center bg-slate-900 rounded-md shadow-md">
+        <h1 class="text-left text-xl font-bold text-white">{{question.title}}</h1>
+        <div class="text-right ">
+            {% if status == 'Solved' %}
+            <span class="text-gray-500">Solved ✅</span>
+            {% elif status == 'Attempted' %}
+            <span class="text-gray-500">Attempted ⏳</span>
+            <span></span>
+            {% else %}
+            <span class="text-gray-500">❓</span>
+            {% endif %}
+        </div>
+    </div>
         
-        {{question_description |safe}}
+        <div class="description markdown prose">
+            {{question_description |safe}}
         Tags: <label class="bg-slate-400 text-white rounded-sm p-1 ">{{question.tags}}</label>
+        </div>
+        
     </div>
     <div class="code-section w-1/2 p-4">
         <form id="codeForm">
@@ -72,8 +89,8 @@
                 
             
             {% if request.user.is_authenticated %}
-            <button id="run-btn" type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Run</button>
-            <button id="submit-btn" class="bg-orange-600 text-white px-6 py-2 rounded hover:bg-orange-700">Submit</button>
+            <button id="run-btn" type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Run</button>
+            <button id="submit-btn" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">Submit</button>
             {% else %}
             <a href="{% url 'login' %}" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">🔐Login to run quries</a>
             {% endif %}
@@ -83,6 +100,7 @@
         <div id="result-section" class="mt-6 text-sm space-y-2"></div>
     </div>
 </div> 
+
 <!-- END OF MAIN DIV CLASS -->
 <!-- JAVASCRIPT -->
 {% block scripts %}

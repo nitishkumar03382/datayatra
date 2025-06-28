@@ -148,6 +148,11 @@ def run_code(request, qid):
 @csrf_exempt
 @login_required
 def submit_code(request, qid):
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        return JsonResponse({"error": "User not authenticated"}, status=401)
+    
     if request.method == 'POST':
         user_code = request.POST.get('user_code', '')
         if not user_code:
@@ -160,16 +165,27 @@ def submit_code(request, qid):
             test_cases = json.load(f)
         test_case_results = []
         i = 1
+        is_success = True
         for test_case in test_cases:
             check_result = checktestcase(user_code, test_case['query'], test_case['setup'], i)
             print(f"Test case {i} result: {check_result}")
             if check_result['status'] == 'error':
-                return JsonResponse(check_result)
+                is_success = False
+                # return JsonResponse(check_result)
             test_case_results.append(check_result)
             i += 1
         context = {
             'test_case_results': test_case_results
         }
+        # Save submission to the database
+        submission = Submisson( 
+            user=user,
+            question=question,
+            code=user_code,
+            status='Solved' if is_success else 'Attempted',
+            is_passed=is_success
+        )
+        submission.save()
     return JsonResponse(context)
 
 def question_list(request):
@@ -196,6 +212,21 @@ def solve(request, qid):
     """
     Render the solve page for a specific question.
     """
+    if request.user.is_authenticated:
+        user = request.user
+        submissons = Submisson.objects.filter(user=user, question__qid=qid)
+        if submissons.exists():
+            latest_submissons = submissons.order_by('-submitted_at').first()
+            passed_submissions = submissons.filter(is_passed=True)
+            if passed_submissions.exists():
+                status = 'Solved'
+            else:
+                status = 'Attempted'
+        else:
+            status = 'Unsolved'
+    else:
+        user = None
+    
     question = get_object_or_404(Question, qid=qid)
     filepath = question.get_markdown_path()
     if not os.path.exists(filepath):
@@ -205,5 +236,5 @@ def solve(request, qid):
         md_text = f.read()
     
     question_description = markdown_to_html(md_text)
-    context = {'question': question, 'question_description': question_description}
+    context = {'question': question, 'question_description': question_description, 'status': status, 'user': user}
     return render(request, 'practice/solve.html', context)

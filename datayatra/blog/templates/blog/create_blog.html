@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block styles %}
+<style>
+  body {
+    background: linear-gradient(135deg, #ffe4ec, #f8bbd0);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card form-card shadow">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-4">✨ Create a New Blog Post ✨</h5>
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn btn-primary w-100 mt-3" type="submit" value="🚀 Post">
+          </form>
+          <a href="{% url 'blog:index' %}" class="btn btn-secondary w-100 mt-3">
+            ⬅️ Back to Blog List
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

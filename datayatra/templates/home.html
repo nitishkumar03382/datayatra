@@ -6,77 +6,37 @@
 
 {% block content %}
     <!-- Hero Section -->
-    <section 
-    class="flex items-center justify-center p-4 bg-white bg-opacity-90">
-        <div 
-            class="text-center px-8 py-12 max-w-3xl border-8 border-white rounded-lg shadow-lg bg-black bg-opacity-95"
-             style="background-image: url('https://www.transparenttextures.com/patterns/black-paper.png');">
-            <h1 class="text-5xl font-bold text-white font-[Patrick Hand]">Master Data Stacks Like a Pro!</h1>
-            <p class="mt-4 text-xl text-gray-300 font-[Patrick Hand]">
-                Learn Data Science, Machine Learning, and more with hands-on coding challenges.
-            </p>
-            
-            <a href="{% url 'practice:question_list' %}" 
-               class="mt-6 inline-block px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition duration-300">
-                Start Practicing Now! 📝
-            </a>
+    <!-- HERO SECTION -->
+    <section class="bg-stone-900 py-20 relative overflow-hidden" id="gradient-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-bold text-stone-100 mb-4">Welcome to DataYatra</h1>
+            <p class="text-lg text-stone-200 mb-8">Your journey to mastering data science starts here.</p>
+            <a href="{% url 'practice:question_list' %}" class="text-indigo-300 hover:text-indigo-400 p-3 bg-stone-700 hover:bg-stone-800 shadow-md hover:shadow-lg rounded"> >Practice SQL</a>
+
         </div>
     </section>
 
-
-    <!-- About Section -->
-    <section class="py-12 px-6">
-        <h2 class="text-3xl font-semibold text-center">About Our Platform</h2>
-        <p class="mt-4 text-center text-gray-600 max-w-lg mx-auto">
-            A hands-on coding environment that helps developers sharpen their skills with real-world problems.
-        </p>
-    </section>
-
-    <!-- Courses Section -->
-    <section class="py-12 px-6 bg-gray-200">
-        <h2 class="text-3xl font-semibold text-center">Explore Our Courses</h2>
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h3 class="text-xl font-bold">Python Basics</h3>
-                <p class="mt-2 text-gray-600">Learn Python step-by-step with interactive exercises.</p>
-                <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                    Start Learning
-                </button>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h3 class="text-xl font-bold">JavaScript Mastery</h3>
-                <p class="mt-2 text-gray-600">Enhance your frontend skills with practical JS projects.</p>
-                <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                    Start Learning
-                </button>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h3 class="text-xl font-bold">SQL for Data Analysis</h3>
-                <p class="mt-2 text-gray-600">Master querying databases with SQL challenges.</p>
-                <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                    Start Learning
-                </button>
+    <!-- Course Section -->
+    <section class="py-10 bg-stone-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <h2 class="text-3xl font-bold text-stone-100 mb-8 text-center">Featured Courses</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
+                <div class="bg-stone-800 p-6 rounded-lg drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)]   hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <h3 class="text-xl font-semibold mb-2 text-stone-100">Data Science Basics</h3>
+                    <p class="text-stone-400 mb-4">Learn the fundamentals of data science.</p>
+                    <a href="#" class="text-indigo-300 hover:text-indigo-400 p-3 bg-stone-700 hover:bg-stone-800 shadow-md hover:shadow-lg rounded hover:underline">Enroll Now</a>
+                </div>
+                <div class="bg-stone-800 p-6 rounded-lg drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)]   hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <h3 class="text-xl font-semibold mb-2 text-stone-100">Machine Learning</h3>
+                    <p class="text-stone-400 mb-4">Dive into machine learning algorithms and techniques.</p>
+                    <a href="#" class="text-indigo-300 hover:text-indigo-400 p-3 bg-stone-700 hover:bg-stone-800 shadow-md hover:shadow-lg rounded hover:underline">Enroll Now</a>
+                </div>
+                <div class="bg-stone-800 p-6 rounded-lg drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)]   hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <h3 class="text-xl font-semibold mb-2 text-stone-100">Data Visualization</h3>
+                    <p class="text-stone-400 mb-4">Master data visualization tools and techniques.</p>
+                    <a href="#" class="text-indigo-300 hover:text-indigo-400 p-3 bg-stone-700 hover:bg-stone-800 shadow-md hover:shadow-lg rounded hover:underline">Enroll Now</a>
+                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="py-12 px-6">
-        <h2 class="text-3xl font-semibold text-center">Why Choose Us?</h2>
-        <div class="mt-8 flex flex-wrap justify-center gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-md text-center w-64">
-                <h3 class="text-xl font-bold">Live Coding</h3>
-                <p class="mt-2 text-gray-600">Write and execute code in real-time.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md text-center w-64">
-                <h3 class="text-xl font-bold">Coding Challenges</h3>
-                <p class="mt-2 text-gray-600">Solve problems and improve skills.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md text-center w-64">
-                <h3 class="text-xl font-bold">Community Support</h3>
-                <p class="mt-2 text-gray-600">Get help and learn with peers.</p>
-            </div>
-        </div>
-    </section>
     
 {% endblock %}

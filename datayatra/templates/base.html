@@ -9,6 +9,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
@@ -37,39 +38,75 @@
 
     <!-- Header -->
     <!-- Place this in base.html inside <body> -->
-<nav class="bg-black text-white px-2 py-1 font-chalk border-b-4 border-white shadow" style="background-image: url('https://www.transparenttextures.com/patterns/black-paper.png');">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+<nav class="bg-stone-900 text-stone-100 shadow-md fixed w-full z-10 top-0 left-0 my-2">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-12">
       
       <!-- Brand Logo & Name -->
       
-      <div class="flex items-center space-x-3">
-        <a href="{% url 'home' %}">
-        <img src="{% static 'images/logo_min.jpg' %}" alt="Data Yatra Logo" class="w-10 h-10 rounded-full border-2 border-white">
+      <div class="flex-shrink-0">
+        <a href="{% url 'home' %}" class="text-xl font-bold text-white">
+        <!-- <img src="{% static 'images/logo_min.jpg' %}" alt="Data Yatra Logo" class="w-10 h-10 rounded-full border-2 border-white"> -->
+        DataYatra
         </a>
       </div>
     
   
-      <!-- Navigation Links -->
-      <div class="space-x-6 text-lg">
-        <a href="{% url 'home' %}" class="hover:underline hover:text-gray-300">🏠 Home</a>
-        <a href="{% url 'practice:question_list' %}" class="hover:underline hover:text-gray-300">📝 Practice</a>
-        <a href="{% url 'course:index' %}" class="hover:underline hover:text-gray-300">📚 Courses</a>
-        <a href="{% url 'blog:index' %}" class="hover:underline hover:text-gray-300">>Blogs</a>
+      <!-- Desktop Navigation Links -->
+      <div class="hidden md:flex space-x-8 mx-auto">
+        <a href="{% url 'home' %}" class="hover:text-indigo-400">Home</a>
+        <a href="{% url 'practice:question_list' %}" class="hover:text-indigo-400">>Practice</a>
+        <a href="{% url 'course:index' %}" class="hover:text-indigo-400">Courses</a>
+        <a href="{% url 'blog:index' %}" class="hover:text-indigo-400">>Blogs</a>
         {% if request.user.is_authenticated %}
-          <a href="{% url 'logout' %}" class="hover:underline hover:text-red-300">🔓 Logout</a>
+          <a href="{% url 'logout' %}" class="hover:text-indigo-400">Logout</a>
         
             <span>{{user.username}}</span>
         {% else %}
-          <a href="{% url 'login' %}" class="hover:underline hover:text-green-300">🔐 Login</a>
-          <a href="{% url 'signup' %}" class="hover:underline hover:text-yellow-300">🆕 Signup</a>
+          <a href="{% url 'login' %}" class="hover:text-indigo-400">Login</a>
+          <a href="{% url 'signup' %}" class="hover:text-indigo-400">Signup</a>
         {% endif %}
       </div>
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button id="menu-toggle" class="focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
     </div>
+    </div>
+    <!-- Mobile Navigation Links -->
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
+    <!-- <a href="#" class="block hover:text-indigo-400">Home</a> -->
+    <a href="{% url 'practice:question_list' %}" class="block hover:text-indigo-400">Practice</a>
+    <a href="{% url 'course:index' %}" class="block hover:text-indigo-400">Courses</a>
+    <a href="{% url 'blog:index' %}" class="block hover:text-indigo-400">Blogs</a>
+    {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="block hover:text-indigo-400">Logout</a>
+        
+            <span>{{user.username}}</span>
+        {% else %}
+          <a href="{% url 'login' %}" class="block hover:text-indigo-400">Login</a>
+          <a href="{% url 'signup' %}" class="block hover:text-indigo-400">Signup</a>
+        {% endif %}
+  </div>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
   </nav>
   
 
     <!-- Page Content -->
-    <main style="padding: 1rem; background-color: #f9f9f9; min-height: 80vh;">
+    <main class="bg-stone-900" ">
         {% block content %}
         {% endblock %}
     </main>

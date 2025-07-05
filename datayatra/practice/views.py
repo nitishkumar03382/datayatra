@@ -226,6 +226,7 @@ def solve(request, qid):
             status = 'Unsolved'
     else:
         user = None
+        status = None
     
     question = get_object_or_404(Question, qid=qid)
     filepath = question.get_markdown_path()

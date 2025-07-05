@@ -19,14 +19,24 @@
         all: unset;
         display: block;
     }
+    .custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.6);
+  border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
 
 </style>
 
 
-<div class="main bg-white flex flex-row">
+<div class="main bg-stone-900 flex flex-row">
     <div class=" w-1/2 p-4 flex-col">
-    <div class="flex flex-row justify-between p-2 mr-6 items-center bg-slate-900 rounded-md shadow-md">
-        <h1 class="text-left text-xl font-bold text-white">{{question.title}}</h1>
+    <div class="flex flex-row justify-between p-2 mr-6 items-center bg-stone-800 rounded-md shadow-md">
+        <h1 class="text-left text-xl font-bold text-stone-100">{{question.title}}</h1>
         <div class="text-right ">
             {% if status == 'Solved' %}
             <span class="text-gray-500">Solved ✅</span>
@@ -39,16 +49,23 @@
         </div>
     </div>
         
-        <div class="description markdown prose">
+        <!-- <div class="description scrollable prose-invert">
             {{question_description |safe}}
-        Tags: <label class="bg-slate-400 text-white rounded-sm p-1 ">{{question.tags}}</label>
+        
+        </div> -->
+        <div class="description prose-invert overflow-y-auto max-h-[60vh] custom-scrollbar">
+            {{question_description |safe}}
         </div>
+        <label class="bg-indigo-600 text-white rounded-full px-3 py-1 text-sm shadow hover:bg-indigo-500 transition">
+            {{ question.tags }}
+        </label>
         
     </div>
     <div class="code-section w-1/2 p-4">
-        <form id="codeForm">
+        <div class="flex flex-row justify-between p-2 m-6 items-center bg-stone-900 "></div>
+        <form id="codeForm" class="mt-8">
             {% csrf_token %}
-            <select id="language-select">
+            <!-- <select id="language-select">
                 <option value="python">Python</option>
                 <option value="javascript">JavaScript</option>
                 <option value="sql" selected>SQL</option>
@@ -70,29 +87,29 @@
               
               
               
-              <br><br>
+              <br><br> -->
               
               <!-- Editor container -->
-              <div id="editor-container" class="font-handwriting">
+              <div id="editor-container" class="font-handwriting ">
                 <textarea 
                 name="user_code" 
                 id="user_code"
                 rows="14"
                 placeholder="Write your code here..."
-                class="w-full h-full resize-none p-4  text-lg rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                      bg-black bg-opacity-90 text-white  shadow-lg
+                class="w-full h-full resize-none p-4  text-lg rounded-md border border-stone-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      bg-stone-800  text-stone-100  shadow-lg
                       scroll-auto custom-scrollbar"
-                      style="background-image: url('https://www.transparenttextures.com/patterns/black-paper.png');"></textarea>
+                      ></textarea>
               </div>
             <br>
               
                 
             
             {% if request.user.is_authenticated %}
-            <button id="run-btn" type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Run</button>
-            <button id="submit-btn" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">Submit</button>
+            <button id="run-btn" type="submit" class="bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded mx-0">Run</button>
+            <button id="submit-btn" class="bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded mx-2 drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)]">Submit</button>
             {% else %}
-            <a href="{% url 'login' %}" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">🔐Login to run quries</a>
+            <a href="{% url 'login' %}" class="bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded ">🔐Login to run quries</a>
             {% endif %}
         </form>
     

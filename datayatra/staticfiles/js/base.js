@@ -43,7 +43,7 @@ document.querySelectorAll('.description h1, .description h2, .description h3').f
 // Apply tailwind css to description code blocks
 document.querySelectorAll('.description').forEach(pre => {
     pre.querySelectorAll('code').forEach(code => {
-        code.classList.add('text-sm', 'text-green-800', 'font-mono', 'bg-gray-100', 'p-1', 'rounded');
+        code.classList.add('text-sm', 'text-green-800', 'font-mono',  'rounded-sm', 'shadow-sm');
         code.style.whiteSpace = 'pre-wrap'; // Ensure code wraps properly
         // remove ` from the start and end of the code block
         

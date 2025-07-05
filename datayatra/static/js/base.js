@@ -1,6 +1,6 @@
 // add tailwind modern UI to markdown html 
 // Apply tailwind css to description tables and make table scrollable inside description div
-document.querySelectorAll('.description').forEach(description => {
+document.querySelectorAll('.description' ).forEach(description => {
     description.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'my-4');
     // Add a scrollbar for long content
     description.style.overflowY = 'auto';
@@ -42,8 +42,9 @@ document.querySelectorAll('.description h1, .description h2, .description h3').f
 });
 // Apply tailwind css to description code blocks
 document.querySelectorAll('.description').forEach(pre => {
+    pre.classList.add('bg-gray-100', 'p-4', 'rounded-md', 'shadow-sm', 'my-4');
     pre.querySelectorAll('code').forEach(code => {
-        code.classList.add('text-sm', 'text-green-800', 'font-mono', 'bg-gray-100', 'p-1', 'rounded');
+        code.classList.add('text-sm', 'text-blue-600', 'font-mono', 'bg-white', 'p-2');
         code.style.whiteSpace = 'pre-wrap'; // Ensure code wraps properly
         // remove ` from the start and end of the code block
         
@@ -61,4 +62,9 @@ document.querySelectorAll('.description ul, .description ol').forEach(list => {
 // Apply tailwind css to scrollable divs
 document.querySelectorAll('.scrollable').forEach(scrollable => {
     scrollable.classList.add('overflow-y-auto', 'max-h-96', 'p-4', 'bg-white', 'rounded-sm', 'shadow-md');
+});
+
+// Make list-chapters scrollable and add tailwind css 
+document.querySelectorAll('.list-chapters').forEach(chapterList => {
+    chapterList.classList.add('overflow-y-auto', 'max-h-96', 'p-4', 'bg-gray-100', 'rounded-lg', 'shadow-md');
 });

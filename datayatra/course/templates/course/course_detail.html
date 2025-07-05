@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Course Detail{% endblock %}
 
 
 {% block content %}
@@ -6,11 +9,11 @@
 <div class="flex">
 
     <!-- Sidebar for chapters -->
-    <aside class="w-1/4 bg-gray-100 p-4 max-h-full overflow-y-auto shadow-md">
-        <h2 class="text-xl font-bold mb-4">Chapters</h2>
-        <ul class="space-y-2">
+    <aside class="w-1/4 bg-gray-100  max-h-full overflow-y-auto shadow-md">
+        <h2 class="text-xl font-bold p-1 mt-2 bg-gray-400">Chapters</h2>
+        <ul>
             {% for chapter in chapters %}
-                <li>
+                <li class="bg-gray-200 mb-1  px-2 py-1 text-indigo-500  hover:bg-gray-300 hover:text-stone-200 transition-colors">
                     <a href="{% url 'course:course_detail' course_id chapter.chapter_order %}"
                        class="{% if chapter.chapter_order == chapter_order %}text-blue-700 font-semibold{% else %}text-gray-700{% endif %} hover:underline">
                         {{ chapter.chapter_name }}
@@ -22,7 +25,7 @@
 
     <!-- Main content -->
     <div class="w-3/4 p-6 bg-white shadow rounded">
-        <div class="prose max-w-none ">
+        <div class="prose markdown max-w-none description">
             {{ course_content|safe }}
         </div>
         {% if chapter_order > 0 %}

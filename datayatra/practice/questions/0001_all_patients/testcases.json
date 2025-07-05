@@ -7,13 +7,7 @@
         "insert into patient values (2,'Krish Jay',99);",
         "insert into patient values (4,'Herman Sen',099);"
       ],
-      "query": "SELECT * FROM patient",
-      "expected_result": [
-        {"id": 1, "name": "Jhon Doe", "physician_id": 96}, 
-        {"id": 2, "name": "Krish Jay", "physician_id": 99}, 
-        {"id": 4, "name": "Herman Sen", "physician_id": 99}
-
-      ]
+      "query": "SELECT * FROM patient"
     },
     {
       "setup": [
@@ -26,13 +20,7 @@
         "insert into patient values (12,'Indra Singh',099);"
         
       ],
-      "query": "SELECT * FROM patient",
-      "expected_result": [
-        {"id": 1, "name": "Jhon Doe", "physician_id": 96}, 
-        {"id": 2, "name": "Krish Jay", "physician_id": 99}, 
-        {"id": 4, "name": "Herman Sen", "physician_id": 99}
-
-      ]
+      "query": "SELECT * FROM patient"
     },
     {
       "setup": [
@@ -40,12 +28,6 @@
         "create table patient(id int,name varchar(255),physician_id int);"
         
       ],
-      "query": "SELECT * FROM patient",
-      "expected_result": [
-        {"id": 1, "name": "Jhon Doe", "physician_id": 96}, 
-        {"id": 2, "name": "Krish Jay", "physician_id": 99}, 
-        {"id": 4, "name": "Herman Sen", "physician_id": 99}
-
-      ]
+      "query": "SELECT * FROM patient"
     }
 ]

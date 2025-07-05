@@ -3,30 +3,30 @@
 {% block title %}All Questions{% endblock %}
 
 {% block content %}
-    {% if questions %}
-<div class="min-h-screen bg-stone-900 py-10 px-6 mt-10">
+{% if questions %}
+<div class="min-h-screen bg-stone-900 py-10 px-6">
   <div class="max-w-5xl mx-auto">
-    <h1 class="text-4xl mb-6 text-center  text-stone-100">Practice Questions</h1>
+    <h1 class="text-4xl mb-6 text-center font-bold text-stone-100">📓 Practice Questions</h1>
 
-    <div class="overflow-x-auto bg-stone-900 rounded-xl shadow-md">
+    <div class="overflow-x-auto backdrop-blur-lg bg-stone-800/60 rounded-xl shadow-2xl  ">
       <table class="w-full table-auto border-collapse text-left">
-        <thead class="bg-stone-800">
+        <thead class="bg-stone-700/60">
           <tr class="text-stone-100 text-lg font-semibold">
-            <th class="px-4 py-3">Title</th>
-            <th class="px-4 py-3">Category</th>
-            <th class="px-4 py-3">Difficulty</th>
+            <th class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2 ">Title</th>
+            <th class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2">Category</th>
+            <th class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2">Difficulty</th>
           </tr>
         </thead>
         <tbody>
           {% for question in questions %}
-          <tr class="hover:bg-stone-700 transition-colors">
-            <td class="px-4 py-3">
+          <tr class="hover:bg-stone-700/70 transition-colors">
+            <td class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2">
               <a href="{% url 'practice:solve' question.qid %}" class="text-indigo-400 hover:text-indigo-300 transition-colors">
                 {{ question.title }}
               </a>
             </td>
-            <td class="px-4 py-3 text-stone-300">{{ question.category }}</td>
-            <td class="px-4 py-3">
+            <td class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2 text-stone-300">{{ question.category }}</td>
+            <td class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2">
               {% if question.difficulty == "Easy" %}
                 <span class="bg-emerald-500 text-stone-900 px-2 py-1 rounded font-semibold">Easy</span>
               {% elif question.difficulty == "Medium" %}
@@ -51,4 +51,5 @@
 {% else %}
 <p class="text-stone-400">No questions available at the moment.</p>
 {% endif %}
+
 {% endblock %}

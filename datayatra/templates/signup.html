@@ -1,52 +1,67 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="min-h-screen bg-white flex items-center justify-center px-4 font-chalk py-2">
-  <div class="border-4 border-white p-8 w-full max-w-md rounded-3xl bg-slate-950 shadow-lg text-white">
-    <h2 class="text-3xl mb-6 text-center underline">🧠 Sign Up to Data Yatra</h2>
+<div class="min-h-screen bg-stone-900 flex items-center justify-center px-4 py-12 font-sans">
+  <div class="w-full max-w-md backdrop-blur-sm bg-stone-800/60 border border-stone-700 rounded-2xl shadow-2xl px-8 py-10 text-stone-100">
+    
+    <h2 class="text-3xl font-semibold text-center mb-6 text-stone-100">SignUp</h2>
 
-    <form method="post" class="space-y-4">
+    <form method="post" class="space-y-6">
       {% csrf_token %}
 
       <div>
-        <label for="id_username" class="block text-lg mb-1">👤 Username</label>
-        <input type="text" name="username" id="id_username" placeholder="chalk_master" class="w-full px-4 py-2 border border-white bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-white" required>
+        <label for="id_username" class="block mb-1 text-stone-300">Username</label>
+        <input type="text" name="username" id="id_username" placeholder="your_username"
+               class="w-full px-4 py-2 rounded bg-stone-900 border border-stone-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+               required>
       </div>
 
       <div>
-        <label for="id_email" class="block text-lg mb-1">📧 Email</label>
-        <input type="email" name="email" id="id_email" placeholder="you@chalk.edu" class="w-full px-4 py-2 border border-white bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-white" required>
+        <label for="id_email" class="block mb-1 text-stone-300">Email</label>
+        <input type="email" name="email" id="id_email" placeholder="you@example.com"
+               class="w-full px-4 py-2 rounded bg-stone-900 border border-stone-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+               required>
       </div>
 
       <div>
-        <label for="id_first_name" class="block text-lg mb-1">📝 First Name</label>
-        <input type="text" name="first_name" id="id_first_name" placeholder="John" class="w-full px-4 py-2 border border-white bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-white" required>
+        <label for="id_first_name" class="block mb-1 text-stone-300">First Name</label>
+        <input type="text" name="first_name" id="id_first_name" placeholder="John"
+               class="w-full px-4 py-2 rounded bg-stone-900 border border-stone-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+               required>
       </div>
 
       <div>
-        <label for="id_last_name" class="block text-lg mb-1">📝 Last Name</label>
-        <input type="text" name="last_name" id="id_last_name" placeholder="Doe" class="w-full px-4 py-2 border border-white bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-white" required>
+        <label for="id_last_name" class="block mb-1 text-stone-300">Last Name</label>
+        <input type="text" name="last_name" id="id_last_name" placeholder="Doe"
+               class="w-full px-4 py-2 rounded bg-stone-900 border border-stone-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+               required>
       </div>
 
       <div>
-        <label for="id_password1" class="block text-lg mb-1">🔒 Password</label>
-        <input type="password" name="password1" id="id_password1" class="w-full px-4 py-2 border border-white bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-white" required>
+        <label for="id_password1" class="block mb-1 text-stone-300">Password</label>
+        <input type="password" name="password1" id="id_password1"
+               class="w-full px-4 py-2 rounded bg-stone-900 border border-stone-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+               required>
       </div>
 
       <div>
-        <label for="id_password2" class="block text-lg mb-1">🔒 Confirm Password</label>
-        <input type="password" name="password2" id="id_password2" class="w-full px-4 py-2 border border-white bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-white" required>
+        <label for="id_password2" class="block mb-1 text-stone-300">Confirm Password</label>
+        <input type="password" name="password2" id="id_password2"
+               class="w-full px-4 py-2 rounded bg-stone-900 border border-stone-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+               required>
       </div>
 
-      <button type="submit" class="w-full mt-4 border border-white text-white py-2 rounded hover:bg-white hover:text-black font-bold transition-all">
-        ✍️ Register
+      <button type="submit"
+              class="w-full py-2 rounded bg-indigo-500 hover:bg-indigo-600 text-white hover:text-stone-100 font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+        Register
       </button>
     </form>
 
-    <p class="mt-6 text-center text-sm text-white">
+    <p class="mt-6 text-center text-sm text-stone-300">
       Already have an account?
-      <a href="{% url 'login' %}" class="underline hover:text-gray-300">Login</a>
+      <a href="{% url 'login' %}" class="text-indigo-400 hover:text-indigo-600 underline">Login</a>
     </p>
+
   </div>
 </div>
 {% endblock %}

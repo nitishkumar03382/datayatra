@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="min-h-screen bg-white flex  justify-center px-4 font-chalk">
+  <div class="border-4 border-white p-8 w-full max-w-md rounded-3xl bg-slate-950 shadow-lg text-white">
+    <h2 class="text-3xl mb-6 text-center underline">🔐 Login to Data Yatra</h2>
+
+    {% if form.errors %}
+      <p class="text-red-300 text-center mb-4">Invalid username or password.</p>
+    {% endif %}
+
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+
+      <div>
+        <label for="id_username" class="block text-lg mb-1">👤 Username</label>
+        <input type="text" name="username" id="id_username" class="w-full px-4 py-2 border border-white bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-white" required>
+      </div>
+
+      <div>
+        <label for="id_password" class="block text-lg mb-1">🔒 Password</label>
+        <input type="password" name="password" id="id_password" class="w-full px-4 py-2 border border-white bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-white" required>
+      </div>
+
+      <button type="submit" class="w-full mt-4 border border-white text-white py-2 rounded hover:bg-white hover:text-black font-bold transition-all">
+        ✅ Login
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-white">
+      Don’t have an account?
+      <a href="{% url 'signup' %}" class="underline hover:text-gray-300">Sign Up</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

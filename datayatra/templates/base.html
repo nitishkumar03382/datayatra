@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.1.0/github-markdown.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css" integrity="sha512-58P9Hy7II0YeXLv+iFiLCv1rtLW47xmiRpC1oFafeKNShp8V5bKV/ciVtYqbk2YfxXQMt58DjNfkXFOn62xE+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>hljs.highlightAll();</script>
 <style>
   .font-handwriting {
@@ -41,7 +42,7 @@
 
 <nav class="bg-stone-900 text-stone-100 shadow-md fixed w-full z-10 top-0 left-0 mt-0">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-12">
+    <div class="flex justify-between items-center h-12 justify-center">
       
       <!-- Brand Logo & Name -->
       
@@ -54,18 +55,22 @@
     
   
       <!-- Desktop Navigation Links -->
-      <div class="hidden md:flex space-x-8 mx-auto">
+      <div class="hidden md:flex space-x-8 mx-auto justify-center text-center">
         <a href="{% url 'home' %}" class="hover:text-indigo-400">Home</a>
         <a href="{% url 'practice:question_list' %}" class="hover:text-indigo-400">>Practice</a>
         <a href="{% url 'course:index' %}" class="hover:text-indigo-400">Courses</a>
         <a href="{% url 'blog:index' %}" class="hover:text-indigo-400">>Blogs</a>
+        
+      </div>
+      <div class="justify-end  ">
         {% if request.user.is_authenticated %}
+        <span class="text-stone-100 font-bold">{{user.username}}</span>
           <a href="{% url 'logout' %}" class="hover:text-indigo-400">Logout</a>
         
-            <span>{{user.username}}</span>
+            
         {% else %}
-          <a href="{% url 'login' %}" class="hover:text-indigo-400">Login</a>
-          <a href="{% url 'signup' %}" class="hover:text-indigo-400">Signup</a>
+          <a href="{% url 'login' %}" class="hover:text-indigo-400 font-bold  drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)] transition duration-300">Login</a>
+          <!-- <a href="{% url 'signup' %}" class="hover:text-indigo-400">Signup</a> -->
         {% endif %}
       </div>
       <!-- Mobile Menu Button -->
@@ -106,7 +111,7 @@
   
 
     <!-- Page Content -->
-    <main class="bg-stone-900" ">
+    <main class="bg-stone-900 mt-10">
         {% block content %}
         {% endblock %}
     </main>
@@ -121,18 +126,18 @@
     <div>
       <h3 class="text-stone-100 text-lg font-semibold mb-4">Quick Links</h3>
       <ul class="space-y-2">
-        <li><a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">Courses</a></li>
-        <li><a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">Practice</a></li>
-        <li><a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">Blog</a></li>
+        <li><a href="{% url 'course:index' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Courses</a></li>
+        <li><a href="{% url 'practice:question_list' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Practice</a></li>
+        <li><a href="{% url 'blog:index' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Blog</a></li>
         <li><a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">Contact</a></li>
       </ul>
     </div>
     <div>
       <h3 class="text-stone-100 text-lg font-semibold mb-4">Follow Us</h3>
       <div class="flex space-x-4">
-        <a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">Twitter</a>
+        <a href="https://instagram.com/datayatra/" class="text-stone-400 hover:text-indigo-400 transition-colors">#Instagram</a>
         <a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">LinkedIn</a>
-        <a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">YouTube</a>
+        <a href="https://www.youtube.com/@data-yatra" class="text-stone-400 hover:text-indigo-400 transition-colors">YouTube</a>
       </div>
     </div>
   </div>

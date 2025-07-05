@@ -104,13 +104,15 @@
             <br>
               
                 
-            
-            {% if request.user.is_authenticated %}
-            <button id="run-btn" type="submit" class="bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded mx-0">Run</button>
-            <button id="submit-btn" class="bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded mx-2 drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)]">Submit</button>
+            <div class="flex flex-row justify-between items-center">
+                {% if request.user.is_authenticated %}
+            <button id="run-btn" type="submit" class="justify-start bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded mx-0">Run</button>
+            <button id="submit-btn" class="justify-end bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded mx-2 drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)]">Submit</button>
             {% else %}
             <a href="{% url 'login' %}" class="bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded ">🔐Login to run quries</a>
             {% endif %}
+            </div>
+            
         </form>
     
         <div class="output" id="resultDiv"></div>

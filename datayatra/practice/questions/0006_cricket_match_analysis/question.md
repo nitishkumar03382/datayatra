@@ -1,10 +1,6 @@
-# 🏏 SQL Challenge: Cricket Match Analysis
+# 🏏 Cricket Match Analysis
 
-## 🧩 Problem Statement
-
-You are given a table named `match_scores` that contains the performance statistics of players in a T20 cricket league. Your task is to filter and sort the data using conditional logic.
-
-### 📊 Table: `match_scores`
+## 📊 Table: `match_scores`
 
 | Column Name     | Data Type    | Description                            |
 |------------------|--------------|----------------------------------------|
@@ -18,15 +14,16 @@ You are given a table named `match_scores` that contains the performance statist
 
 ---
 
-## 📝 Question
+## 📝 Question Description
+You are given a table named `match_scores` that contains the performance statistics of players in a T20 cricket league. Your task is to filter and sort the data using conditional logic.
 
 Write an SQL query to **find the names of players** who:
 
-- Belong to the team `'Super Strikers'` **or** `'Power Hitters'`
-- Scored **more than 30 runs**
-- **Did not get out** in the match
-- The match was **not played in the month of May**
-- Order the result by `runs_scored` in **descending** order and then by `player_name` in **ascending** order
+* Belong to the team `'Super Strikers'` **or** `'Power Hitters'`
+* **Scored **more than 30 runs**
+* **Did not get out** in the match
+* The match was **not played in the month of May**
+* Order the result by `runs_scored` in **descending** order and then by `player_name` in **ascending** order
 
 ### ✅ Expected Output Columns
 

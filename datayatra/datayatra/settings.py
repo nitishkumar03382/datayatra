@@ -49,11 +49,16 @@ INSTALLED_APPS = [
     'course',  # Course management app
     "crispy_forms",
     "crispy_bootstrap4",
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
 
 
     'django_browser_reload',  # For live reloading during development
 ]
-
+SITE_ID = 1  # Default site ID for Django sites framework
 
 
 TAILWIND_APP_NAME = 'theme'  # Name of the Tailwind app
@@ -67,7 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'allauth.account.middleware.AccountMiddleware',
 
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
@@ -88,7 +93,24 @@ TEMPLATES = [
         },
     },
 ]
-
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id':'1016926925043-jrin7s6hq1ddg3ral9tgej8tb300r4vl.apps.googleusercontent.com',
+            'secret': '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',
+             "key": "",
+          
+        },
+        'SCOPE': ['profile','email',],
+         'AUTH_PARAMS': {'access_type': 'online'},
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': True,
+    }
+}
+SOCIALACCOUNT_LOGIN_ON_GET=True
+LOGIN_REDIRECT_URL = 'success'
+LOGIN_URL = 'login'
+SOCIALACCOUNT_AUTO_SIGNUP=True
 WSGI_APPLICATION = 'datayatra.wsgi.application'
 
 
@@ -123,9 +145,13 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'OPTIONS': {
+            'user_attributes': (),
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',

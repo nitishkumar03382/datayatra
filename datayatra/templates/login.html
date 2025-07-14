@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
+{% load socialaccount %}
 
 {% block content %}
+<!-- If user is logged in redirect to home -->
+{% if user.is_authenticated %}
+  <script>
+    window.location.href = "{% url 'home' %}";
+  </script>
+{% endif %}
 <div class="min-h-screen bg-stone-900 flex items-center justify-center px-4 py-12 font-sans">
   <div class="w-full max-w-md backdrop-blur-sm bg-stone-800/60 border border-stone-700 rounded-2xl shadow-2xl px-8 py-10 text-stone-100">
     
@@ -32,6 +39,19 @@
               class="w-full py-2 rounded bg-indigo-500 hover:bg-indigo-600 text-white hover:text-stone-100 font-semibold shadow-md hover:shadow-lg transition-all duration-300">
        Login
       </button>
+      <a href="{% provider_login_url 'google' %}" class="block">
+    <button type="button"
+            class="flex items-center justify-center w-full bg-gray-50 border border-gray-300 text-gray-80 rounded-md py-2 px-4 hover:bg-gray-10 transition">
+      <img src="https://developers.google.com/identity/images/g-logo.png"
+           alt="Google logo"
+           class="w-3 h-3 mr-2"
+        
+           width="25px"
+           height="25px">
+      <span class="font-medium">Continue with Google</span>
+    </button>
+  </a>
+
     </form>
 
     <p class="mt-6 text-center text-sm text-stone-300">

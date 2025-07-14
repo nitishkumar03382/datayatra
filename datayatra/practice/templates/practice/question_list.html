@@ -5,28 +5,31 @@
 {% block content %}
 {% if questions %}
 <div class="min-h-screen bg-stone-900 py-10 px-6">
-  <div class="max-w-5xl mx-auto">
-    <h1 class="text-4xl mb-6 text-center font-bold text-stone-100">📓 Practice Questions</h1>
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-4xl mb-6 text-center font-bold text-stone-100">Practice Questions</h1>
 
-    <div class="overflow-x-auto backdrop-blur-lg bg-stone-800/60 rounded-xl shadow-2xl  ">
+    <div class="overflow-x-auto backdrop-blur-lg bg-stone-800/60 rounded-xl shadow-2xl">
       <table class="w-full table-auto border-collapse text-left">
         <thead class="bg-stone-700/60">
-          <tr class="text-stone-100 text-lg font-semibold">
-            <th class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2 ">Title</th>
-            <th class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2">Category</th>
-            <th class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2">Difficulty</th>
+          <tr class="text-stone-100 text-base font-semibold">
+            <th class="w-3/5 px-4 py-3">Title</th>
+            <th class="w-1/5 px-4 py-3">Category</th>
+            <th class="w-1/5 px-4 py-3">Difficulty</th>
+            {% if user.is_authenticated %}
+            <th class="w-1/5 px-4 py-3">Status</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
           {% for question in questions %}
-          <tr class="hover:bg-stone-700/70 transition-colors">
-            <td class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2">
+          <tr class="hover:bg-stone-700/70 transition-colors border-b border-stone-700">
+            <td class="px-4 py-3">
               <a href="{% url 'practice:solve' question.qid %}" class="text-indigo-400 hover:text-indigo-300 transition-colors">
                 {{ question.title }}
               </a>
             </td>
-            <td class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2 text-stone-300">{{ question.category }}</td>
-            <td class="px-4 py-3  sm:px-1 sm:py-1 md:px-2 md:py-2">
+            <td class="px-4 py-3 text-stone-300">{{ question.category }}</td>
+            <td class="px-4 py-3">
               {% if question.difficulty == "Easy" %}
                 <span class="bg-emerald-500 text-stone-900 px-2 py-1 rounded font-semibold">Easy</span>
               {% elif question.difficulty == "Medium" %}
@@ -37,10 +40,23 @@
                 <span class="text-stone-400">-</span>
               {% endif %}
             </td>
+            {% if user.is_authenticated %}
+            <td class="px-4 py-3">
+              {% with status=question.get_user_status %} {# Assume this method exists in your model #}
+                {% if status == 'Solved' %}
+                  <span class="text-emerald-400 font-semibold">Solved</span>
+                {% elif status == 'Attempted' %}
+                  <span class="text-amber-300 font-semibold">Attempted</span>
+                {% else %}
+                  <span class="text-stone-500 font-semibold">Unsolved</span>
+                {% endif %}
+              {% endwith %}
+            </td>
+            {% endif %}
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3" class="text-center px-4 py-4 text-stone-400">No questions available.</td>
+            <td colspan="4" class="text-center px-4 py-4 text-stone-400">No questions available.</td>
           </tr>
           {% endfor %}
         </tbody>

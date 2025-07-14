@@ -22,6 +22,7 @@ from . import views
 
 
 urlpatterns = [
+    path("accounts/",include('allauth.urls')),
     path("signup/", views.signup, name="signup"),
     path("login/", auth_views.LoginView.as_view(template_name="login.html"), name="login"),
     path("logout/", views.custom_logout, name="logout"),

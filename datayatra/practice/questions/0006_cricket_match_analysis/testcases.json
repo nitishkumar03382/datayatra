@@ -1,0 +1,71 @@
+[
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS match_scores;",
+      "CREATE TABLE match_scores(id INT, player_name VARCHAR(100), team_name VARCHAR(100), runs_scored INT, is_out BOOLEAN, match_date DATE);",
+      "INSERT INTO match_scores VALUES (1, 'Player A', 'Super Strikers', 45, FALSE, '2024-04-21');",
+      "INSERT INTO match_scores VALUES (2, 'Player B', 'Power Hitters', 35, FALSE, '2024-06-11');"
+    ],
+    "query": "SELECT player_name, team_name, runs_scored, match_date FROM match_scores WHERE (team_name = 'Super Strikers' OR team_name = 'Power Hitters') AND runs_scored > 30 AND is_out = FALSE AND NOT MONTH(match_date) = 5 ORDER BY runs_scored DESC, player_name ASC;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS match_scores;",
+      "CREATE TABLE match_scores(id INT, player_name VARCHAR(100), team_name VARCHAR(100), runs_scored INT, is_out BOOLEAN, match_date DATE);",
+      "INSERT INTO match_scores VALUES (1, 'Player A', 'Super Strikers', 45, TRUE, '2024-04-21');",
+      "INSERT INTO match_scores VALUES (2, 'Player B', 'Power Hitters', 60, TRUE, '2024-06-11');"
+    ],
+    "query": "SELECT player_name, team_name, runs_scored, match_date FROM match_scores WHERE (team_name = 'Super Strikers' OR team_name = 'Power Hitters') AND runs_scored > 30 AND is_out = FALSE AND NOT MONTH(match_date) = 5 ORDER BY runs_scored DESC, player_name ASC;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS match_scores;",
+      "CREATE TABLE match_scores(id INT, player_name VARCHAR(100), team_name VARCHAR(100), runs_scored INT, is_out BOOLEAN, match_date DATE);",
+      "INSERT INTO match_scores VALUES (1, 'Player A', 'Super Strikers', 30, FALSE, '2024-06-01');",
+      "INSERT INTO match_scores VALUES (2, 'Player B', 'Power Hitters', 31, FALSE, '2024-06-02');"
+    ],
+    "query": "SELECT player_name, team_name, runs_scored, match_date FROM match_scores WHERE (team_name = 'Super Strikers' OR team_name = 'Power Hitters') AND runs_scored > 30 AND is_out = FALSE AND NOT MONTH(match_date) = 5 ORDER BY runs_scored DESC, player_name ASC;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS match_scores;",
+      "CREATE TABLE match_scores(id INT, player_name VARCHAR(100), team_name VARCHAR(100), runs_scored INT, is_out BOOLEAN, match_date DATE);",
+      "INSERT INTO match_scores VALUES (1, 'Player A', 'Super Strikers', 55, FALSE, '2024-05-15');"
+    ],
+    "query": "SELECT player_name, team_name, runs_scored, match_date FROM match_scores WHERE (team_name = 'Super Strikers' OR team_name = 'Power Hitters') AND runs_scored > 30 AND is_out = FALSE AND NOT MONTH(match_date) = 5 ORDER BY runs_scored DESC, player_name ASC;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS match_scores;",
+      "CREATE TABLE match_scores(id INT, player_name VARCHAR(100), team_name VARCHAR(100), runs_scored INT, is_out BOOLEAN, match_date DATE);",
+      "INSERT INTO match_scores VALUES (1, 'Player A', 'Warrior Kings', 60, FALSE, '2024-06-10');",
+      "INSERT INTO match_scores VALUES (2, 'Player B', 'Power Hitters', 61, FALSE, '2024-06-12');"
+    ],
+    "query": "SELECT player_name, team_name, runs_scored, match_date FROM match_scores WHERE (team_name = 'Super Strikers' OR team_name = 'Power Hitters') AND runs_scored > 30 AND is_out = FALSE AND NOT MONTH(match_date) = 5 ORDER BY runs_scored DESC, player_name ASC;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS match_scores;",
+      "CREATE TABLE match_scores(id INT, player_name VARCHAR(100), team_name VARCHAR(100), runs_scored INT, is_out BOOLEAN, match_date DATE);",
+      "INSERT INTO match_scores VALUES (1, 'Player A', 'Super Strikers', NULL, FALSE, '2024-04-21');",
+      "INSERT INTO match_scores VALUES (2, 'Player B', 'Power Hitters', 50, NULL, '2024-04-22');"
+    ],
+    "query": "SELECT player_name, team_name, runs_scored, match_date FROM match_scores WHERE (team_name = 'Super Strikers' OR team_name = 'Power Hitters') AND runs_scored > 30 AND is_out = FALSE AND NOT MONTH(match_date) = 5 ORDER BY runs_scored DESC, player_name ASC;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS match_scores;",
+      "CREATE TABLE match_scores(id INT, player_name VARCHAR(100), team_name VARCHAR(100), runs_scored INT, is_out BOOLEAN, match_date DATE);",
+      "INSERT INTO match_scores VALUES (1, 'Player A', 'Super Strikers', 45, FALSE, '2024-06-15');",
+      "INSERT INTO match_scores VALUES (2, 'Player A', 'Power Hitters', 47, FALSE, '2024-06-16');"
+    ],
+    "query": "SELECT player_name, team_name, runs_scored, match_date FROM match_scores WHERE (team_name = 'Super Strikers' OR team_name = 'Power Hitters') AND runs_scored > 30 AND is_out = FALSE AND NOT MONTH(match_date) = 5 ORDER BY runs_scored DESC, player_name ASC;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS match_scores;",
+      "CREATE TABLE match_scores(id INT, player_name VARCHAR(100), team_name VARCHAR(100), runs_scored INT, is_out BOOLEAN, match_date DATE);"
+    ],
+    "query": "SELECT player_name, team_name, runs_scored, match_date FROM match_scores WHERE (team_name = 'Super Strikers' OR team_name = 'Power Hitters') AND runs_scored > 30 AND is_out = FALSE AND NOT MONTH(match_date) = 5 ORDER BY runs_scored DESC, player_name ASC;"
+  }
+]

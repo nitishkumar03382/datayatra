@@ -105,6 +105,15 @@ SOCIALACCOUNT_PROVIDERS = {
          'AUTH_PARAMS': {'access_type': 'online'},
         'METHOD': 'oauth2',
         'VERIFIED_EMAIL': True,
+    },
+
+    'github': {
+        'APP': {
+            'client_id': 'Ov23liRE33XfWzfdKYHc',
+            'secret': '9b1a31d772018ee42ece76b8cb9ed3ac15785a54',
+             "key": "",
+          
+        },
     }
 }
 SOCIALACCOUNT_LOGIN_ON_GET=True

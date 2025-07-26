@@ -224,9 +224,11 @@ def question_list(request):
             submission_map.setdefault(sub.question_id, []).append(sub)
     else:
         submission_map = {}
-
+    solved_count = 0
     for question in questions:
         status = get_question_status(user, question.qid, submission_map)
+        if status == 'Solved':
+            solved_count += 1
         question_list.append({
             'qid': question.qid,
             'title': question.title,
@@ -237,8 +239,10 @@ def question_list(request):
             'updated_at': question.updated_at,
             'status': status,
         })
+        total = questions.count()
+        progress = round((solved_count / total) * 100) if total > 0 else 0
 
-    return render(request, 'practice/question_list.html', {'questions': question_list})
+    return render(request, 'practice/question_list.html', {'questions': question_list, 'progress': progress})
 
 
 def solve(request, qid):
@@ -277,15 +281,16 @@ def case_study(request):
     case_studies = CaseStudy.objects.all()
     return render(request, 'practice/case_study.html', {'case_studies': case_studies})
 def case_study_questions(request, case_study_id):
-    if not request.user.is_authenticated:
-        return JsonResponse({"error": "User not authenticated"}, status=401)
-    
+
     case_study = get_object_or_404(CaseStudy, id=case_study_id)
     questions = Question.objects.filter(case_study=case_study)
 
     # Calculate progress
-    progress = get_case_study_progress(request.user, case_study.id)
-    print(f"Progress for case study {case_study.title}: {progress}%")
+    if request.user.is_authenticated:
+        progress = get_case_study_progress(request.user, case_study.id)
+        print(f"Progress for case study {case_study.title}: {progress}%")
+    else:
+        progress = 0
 
     # Fetch all submissions once for efficiency
     if request.user.is_authenticated:

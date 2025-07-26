@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+<head>
+    {% block title %}Case Study{% endblock %}
+</head>
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-4xl bg-stone-800 p-3 text-stone-100 rounded-md">📊Case Studies🎯</h1>
+    
+    {% for case_study in case_studies %}
+        <div class="row mb-5 flex items-center bg-stone-800 rounded-xl shadow-lg overflow-hidden">
+            {% if forloop.counter|divisibleby:2 %}
+                <!-- Even: Image left, Text right -->
+                <div class="col-md-6 p-4">
+                    <img src="{{ case_study.image.url }}" alt="{{ case_study.title }}" class="w-full h-auto rounded">
+                </div>
+                <div class="col-md-6 p-4 text-stone-100">
+                    <h2 class="text-2xl font-semibold mb-2">{{ case_study.title }}</h2>
+                    <p class="text-stone-200 mb-4">{{ case_study.description }}</p>
+                    <a href="{% url 'practice:case_study_questions' case_study.id %}" class=" text-indigo-300 hover:text-indigo-400 p-3 bg-stone-700 hover:bg-stone-800 rounded shadow-md hover:shadow-[0_0_10px_3px_rgba(129,140,248,0.7)] drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)] transition duration-300">Start Now</a>
+                </div>
+            {% else %}
+                <!-- Odd: Text left, Image right -->
+                <div class="col-md-6 p-4 text-stone-100">
+                    <h2 class="text-2xl font-semibold mb-2">{{ case_study.title }}</h2>
+                    <p class="text-stone-200 mb-3">{{ case_study.description }}</p>
+                    <a href="{% url 'practice:case_study_questions' case_study.id %}" class="mt -2 text-indigo-300 hover:text-indigo-400 p-3 bg-stone-700 hover:bg-stone-800 rounded shadow-md hover:shadow-[0_0_10px_3px_rgba(129,140,248,0.7)] drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)] transition duration-300">Start Now</a>
+                </div>
+                <div class="col-md-6 p-4">
+                    <img src="{{ case_study.image.url }}" alt="{{ case_study.title }}" class="w-full h-auto rounded">
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

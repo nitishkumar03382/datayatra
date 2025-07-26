@@ -9,7 +9,7 @@ import os
 from django.http import Http404
 from .utils import markdown_to_html
 from .utils import checktestcase
-from .models import Question, Submisson
+from .models import Question, Submisson, CaseStudy
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import time
@@ -188,13 +188,45 @@ def submit_code(request, qid):
         submission.save()
     return JsonResponse(context)
 
+
+def get_question_status(user, question_id, submission_map=None):
+    """
+    Returns the status of a question for a user: 'Solved', 'Attempted', or 'Unsolved'.
+    If user is not authenticated, returns empty string.
+    
+    Optionally pass a submission_map {question_id: [submissions]} for performance.
+    """
+    if not user.is_authenticated:
+        return ""
+
+    if submission_map is None:
+        from .models import Submisson
+        submissions = Submisson.objects.filter(user=user, question_id=question_id)
+    else:
+        submissions = submission_map.get(question_id, [])
+
+    if any(sub.is_passed for sub in submissions):
+        return "Solved"
+    elif submissions:
+        return "Attempted"
+    else:
+        return "Unsolved"
 def question_list(request):
-    """
-    Get all questions from the database.
-    """
+    user = request.user
     questions = Question.objects.all()
     question_list = []
+
+    # Build submission_map for efficiency
+    if user.is_authenticated:
+        user_submissions = Submisson.objects.filter(user=user)
+        submission_map = {}
+        for sub in user_submissions:
+            submission_map.setdefault(sub.question_id, []).append(sub)
+    else:
+        submission_map = {}
+
     for question in questions:
+        status = get_question_status(user, question.qid, submission_map)
         question_list.append({
             'qid': question.qid,
             'title': question.title,
@@ -202,10 +234,11 @@ def question_list(request):
             'difficulty': question.difficulty,
             'tags': question.tags,
             'created_at': question.created_at,
-            'updated_at': question.updated_at
+            'updated_at': question.updated_at,
+            'status': status,
         })
-    return render(request, 'practice/question_list.html', {'questions': question_list})
 
+    return render(request, 'practice/question_list.html', {'questions': question_list})
 
 
 def solve(request, qid):
@@ -239,3 +272,65 @@ def solve(request, qid):
     question_description = markdown_to_html(md_text)
     context = {'question': question, 'question_description': question_description, 'status': status, 'user': user}
     return render(request, 'practice/solve.html', context)
+
+def case_study(request):
+    case_studies = CaseStudy.objects.all()
+    return render(request, 'practice/case_study.html', {'case_studies': case_studies})
+def case_study_questions(request, case_study_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User not authenticated"}, status=401)
+    
+    case_study = get_object_or_404(CaseStudy, id=case_study_id)
+    questions = Question.objects.filter(case_study=case_study)
+
+    # Calculate progress
+    progress = get_case_study_progress(request.user, case_study.id)
+    print(f"Progress for case study {case_study.title}: {progress}%")
+
+    # Fetch all submissions once for efficiency
+    if request.user.is_authenticated:
+        user_submissions = Submisson.objects.filter(user=request.user, question__in=questions)
+        submission_map = {}
+        for sub in user_submissions:
+            submission_map.setdefault(sub.question_id, []).append(sub)
+    else:
+        submission_map = {}
+
+    # Add status per question
+    question_list = []
+    for q in questions:
+        status = get_question_status(request.user, q.qid, submission_map)
+        question_list.append({
+            'qid': q.qid,
+            'title': q.title,
+            'category': q.category,
+            'difficulty': q.difficulty,
+            'tags': q.tags,
+            'created_at': q.created_at,
+            'updated_at': q.updated_at,
+            'status': status,
+        })
+
+    return render(request, 'practice/case_study_questions.html', {
+        'case_study': case_study,
+        'questions': question_list,
+        'progress': progress
+    })
+
+def get_case_study_progress(user, case_study_id):
+    case_study = CaseStudy.objects.get(id=case_study_id)
+    
+    # Total questions in case study
+    total_questions = Question.objects.filter(case_study=case_study).count()
+    
+    # Solved questions by user (only the ones passed)
+    solved_question_ids = Submisson.objects.filter(
+        user=user,
+        question__case_study=case_study,
+        is_passed=True
+    ).values_list('question_id', flat=True).distinct()
+    
+    solved_count = solved_question_ids.count()
+
+    progress = (solved_count / total_questions) * 100 if total_questions > 0 else 0
+    return round(progress, 2)

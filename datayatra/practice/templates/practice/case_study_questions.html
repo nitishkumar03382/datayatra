@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
-
-{% block title %}All Questions{% endblock %}
+{% load static %}
+<head>
+{% block title %}Case Study Questions{% endblock %}
+<style>
+  
+</style>
+</head>
 
 {% block content %}
 {% if questions %}
 <div class="min-h-screen bg-stone-900 py-10 px-6">
   <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl mb-6 text-center font-bold text-stone-100">Practice Questions</h1>
-
+    <h1 class="text-4xl mb-6 text-center font-bold text-stone-100">{{case_study.title}}</h1>
+    <div class="w-full bg-stone-200 rounded-full h-2.5 overflow-hidden">
+  <div 
+    id="progress-bar" 
+    class="bg-indigo-600 h-3 rounded-full neon-glow transition-all duration-1000 ease-out"
+    style="width: 0%;">
+  </div>
+</div>
+<p class="text-sm text-gray-600 mt-1">
+  {{ progress }}% completed
+</p>
     <div class="overflow-x-auto backdrop-blur-lg bg-stone-800/60 rounded-xl shadow-2xl">
       <table class="w-full table-auto border-collapse text-left">
         <thead class="bg-stone-700/60">
@@ -67,5 +81,15 @@
 {% else %}
 <p class="text-stone-400">No questions available at the moment.</p>
 {% endif %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const progress = {{ progress|default:0 }};
+    const bar = document.getElementById("progress-bar");
+    setTimeout(() => {
+      bar.style.width = progress + "%";
+    }, 100);  // slight delay to trigger transition
+  });
+</script>
 
 {% endblock %}

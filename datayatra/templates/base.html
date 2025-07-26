@@ -18,6 +18,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css" integrity="sha512-58P9Hy7II0YeXLv+iFiLCv1rtLW47xmiRpC1oFafeKNShp8V5bKV/ciVtYqbk2YfxXQMt58DjNfkXFOn62xE+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>hljs.highlightAll();</script>
 <style>
+  @keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 10px #3b82f6;
+  }
+  50% {
+    box-shadow: 0 0 20px #2568d6, 0 0 30px #2568d6;
+  }
+  100% {
+    box-shadow: 0 0 10px #1308b0;
+  }
+}
+  .neon-glow {
+    /* box-shadow: 0 0 10px #3b82f6, 0 0 20px #4e22c5, 0 0 30px #2279c5, 0 0 40px #2d22c5; */
+    animation: pulse-glow 2s infinite alternate;
+  }
   .font-handwriting {
     font-family: 'Patrick Hand', cursive;
   }
@@ -58,6 +73,7 @@
       <div class="hidden md:flex space-x-8 mx-auto justify-center text-center">
         <a href="{% url 'home' %}" class="hover:text-indigo-400">Home</a>
         <a href="{% url 'practice:question_list' %}" class="hover:text-indigo-400">>Practice</a>
+        <a href="{% url 'practice:case_study' %}" class="hover:text-indigo-400">>Case Study</a>
         <a href="{% url 'course:index' %}" class="hover:text-indigo-400">Courses</a>
         <a href="{% url 'blog:index' %}" class="hover:text-indigo-400">>Blogs</a>
         
@@ -88,6 +104,7 @@
     <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
     <!-- <a href="#" class="block hover:text-indigo-400">Home</a> -->
     <a href="{% url 'practice:question_list' %}" class="block hover:text-indigo-400">Practice</a>
+    <a href="{% url 'practice:case_study' %}" class="hover:text-indigo-400">>Case Study</a>
     <a href="{% url 'course:index' %}" class="block hover:text-indigo-400">Courses</a>
     <a href="{% url 'blog:index' %}" class="block hover:text-indigo-400">Blogs</a>
     {% if request.user.is_authenticated %}

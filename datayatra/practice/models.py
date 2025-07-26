@@ -19,6 +19,7 @@ class Question(models.Model):
     category = models.CharField(max_length=20, choices=QUESTION_TYPES)
     difficulty = models.CharField(max_length=20, choices=DIFFICULTY_LEVELS)
     tags = models.CharField(max_length=255, blank=True)
+    case_study = models.ForeignKey('CaseStudy', on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -37,6 +38,7 @@ class Submisson(models.Model):
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    case_study = models.ForeignKey('CaseStudy', on_delete=models.CASCADE, null=True, blank=True)
     code = models.TextField()
     status = models.CharField(max_length=20, default='Unsolved', choices=STATUS_CHOICES)
     is_passed = models.BooleanField(default=False)
@@ -44,3 +46,14 @@ class Submisson(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.question.title} ({self.submitted_at})"
+
+# Create Case Study Model
+class CaseStudy(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(upload_to='case_studies/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title

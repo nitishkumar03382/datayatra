@@ -31,21 +31,25 @@ Python is often recommended as the **first programming language** for beginners 
 
 ## 💻 Code Examples
 
->```
+>```python
 ># This is a simple Python program to >print "Hello, World!"
 >print("Hello, World!")
-># Math Operations
+ Math Operations
+>```python
 >print(5+3)
-># Output:8   
->#Variable Usage
+># Output:8 
+>```  
+ Variable Usage
+>```python
 >name="python"
->print("welcome to", name)    
-># Output: Welcome to python
+>print("welcome to", name)    # Output: Welcome to python
 >```
 
 ## 📺 YouTube Video
 
 ####  watch the video
 ![youtube]()
+
+
 
 

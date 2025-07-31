@@ -3,69 +3,144 @@
 {% block title %}All Questions{% endblock %}
 
 {% block content %}
-{% if questions %}
-<div class="min-h-screen bg-stone-900 py-10 px-6">
-  <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl mb-6 text-center font-bold text-stone-100">Practice Questions</h1>
+<div class="min-h-screen bg-stone-900 py-12 px-4 sm:px-6 lg:px-8 " style="margin-top: 50px;">
+  <div class="max-w-7xl mx-auto">
 
-    <div class="overflow-x-auto backdrop-blur-lg bg-stone-800/60 rounded-xl shadow-2xl">
-      <table class="w-full table-auto border-collapse text-left">
-        <thead class="bg-stone-700/60">
-          <tr class="text-stone-100 text-base font-semibold">
-            <th class="w-3/5 px-4 py-3">Title</th>
-            <th class="w-1/5 px-4 py-3">Category</th>
-            <th class="w-1/5 px-4 py-3">Difficulty</th>
+    <div class="mb-8">
+      <h1 class="text-4xl text-center font-bold text-white mb-6">Practice Questions</h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-stone-800/50 rounded-lg">
+        
+        <div class="col-span-1 md:col-span-1">
+          <input type="search" id="search-input" placeholder="Search by title..."
+            class="w-full bg-stone-700 text-white placeholder-stone-400 border border-stone-600 rounded-md py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+        </div>
+
+        <div class="col-span-1">
+          <select id="category-filter"
+            class="w-full bg-stone-700 text-white border border-stone-600 rounded-md py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+            <option value="all">All Categories</option>
+            {% for category in categories %} {# Assumes you pass 'categories' in context #}
+              <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div class="col-span-1">
+          <select id="difficulty-filter"
+            class="w-full bg-stone-700 text-white border border-stone-600 rounded-md py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+            <option value="all">All Difficulties</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="overflow-x-auto bg-stone-800/60 rounded-xl shadow-2xl">
+      <table class="w-full table-auto text-left">
+        <thead class="border-b border-stone-700">
+          <tr>
+            <th class="w-2/5 px-6 py-4 text-xs text-stone-400 font-medium uppercase tracking-wider">Title</th>
+            <th class="w-1/5 px-6 py-4 text-xs text-stone-400 font-medium uppercase tracking-wider">Category</th>
+            <th class="w-1/5 px-6 py-4 text-xs text-stone-400 font-medium uppercase tracking-wider">Difficulty</th>
             {% if user.is_authenticated %}
-            <th class="w-1/5 px-4 py-3">Status</th>
+            <th class="w-1/5 px-6 py-4 text-xs text-stone-400 font-medium uppercase tracking-wider">Status</th>
             {% endif %}
           </tr>
         </thead>
-        <tbody>
+        <tbody id="questions-tbody">
           {% for question in questions %}
-          <tr class="hover:bg-stone-700/70 transition-colors border-b border-stone-700">
-            <td class="px-4 py-3">
-              <a href="{% url 'practice:solve' question.qid %}" class="text-indigo-400 hover:text-indigo-300 transition-colors">
+          <tr class="question-row border-b border-stone-800 hover:bg-stone-700/50 transition-colors"
+              data-title="{{ question.title|lower }}" 
+              data-category="{{ question.category }}" 
+              data-difficulty="{{ question.difficulty }}">
+            <td class="px-6 py-4">
+              <a href="{% url 'practice:solve' question.qid %}" class="font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
                 {{ question.title }}
               </a>
             </td>
-            <td class="px-4 py-3 text-stone-300">{{ question.category }}</td>
-            <td class="px-4 py-3">
+            <td class="px-6 py-4 text-stone-300">{{ question.category }}</td>
+            <td class="px-6 py-4">
               {% if question.difficulty == "Easy" %}
-                <span class="bg-emerald-500 text-stone-900 px-2 py-1 rounded font-semibold">Easy</span>
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-900 text-emerald-300">Easy</span>
               {% elif question.difficulty == "Medium" %}
-                <span class="bg-amber-400 text-stone-900 px-2 py-1 rounded font-semibold">Medium</span>
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-900 text-amber-300">Medium</span>
               {% elif question.difficulty == "Hard" %}
-                <span class="bg-red-600 text-white px-2 py-1 rounded font-semibold">Hard</span>
-              {% else %}
-                <span class="text-stone-400">-</span>
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-red-900 text-red-300">Hard</span>
               {% endif %}
             </td>
             {% if user.is_authenticated %}
-            <td class="px-4 py-3">
-              {% with status=question.status %} {# Assume this method exists in your model #}
+            <td class="px-6 py-4">
+              {% with status=question.status %}
                 {% if status == 'Solved' %}
-                  <span class="text-emerald-400 font-semibold">Solved</span>
+                  <span class="flex items-center gap-2 text-emerald-400 font-semibold text-sm">✅ Solved</span>
                 {% elif status == 'Attempted' %}
-                  <span class="text-amber-300 font-semibold">Attempted</span>
+                  <span class="flex items-center gap-2 text-amber-400 font-semibold text-sm">✍️ Attempted</span>
                 {% else %}
-                  <span class="text-stone-500 font-semibold">Unsolved</span>
+                  <span class="text-stone-500 font-semibold text-sm">-</span>
                 {% endif %}
               {% endwith %}
             </td>
             {% endif %}
           </tr>
           {% empty %}
-          <tr>
-            <td colspan="4" class="text-center px-4 py-4 text-stone-400">No questions available.</td>
+          <tr id="no-results-row" class="hidden">
+            <td colspan="4" class="text-center px-6 py-10 text-stone-400">No questions match your filters.</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+      {% if not questions %}
+      <div class="text-center px-6 py-10 text-stone-400">
+        No questions available at the moment.
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>
-{% else %}
-<p class="text-stone-400">No questions available at the moment.</p>
-{% endif %}
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    const categoryFilter = document.getElementById('category-filter');
+    const difficultyFilter = document.getElementById('difficulty-filter');
+    const questionsTbody = document.getElementById('questions-tbody');
+    const allRows = questionsTbody.querySelectorAll('.question-row');
+    const noResultsRow = document.getElementById('no-results-row');
+
+    function filterQuestions() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const category = categoryFilter.value;
+      const difficulty = difficultyFilter.value;
+      let visibleRows = 0;
+
+      allRows.forEach(row => {
+        const title = row.dataset.title;
+        const rowCategory = row.dataset.category;
+        const rowDifficulty = row.dataset.difficulty;
+
+        const searchMatch = title.includes(searchTerm);
+        const categoryMatch = (category === 'all' || rowCategory === category);
+        const difficultyMatch = (difficulty === 'all' || rowDifficulty === difficulty);
+
+        if (searchMatch && categoryMatch && difficultyMatch) {
+          row.classList.remove('hidden');
+          visibleRows++;
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+
+      if (noResultsRow) {
+          noResultsRow.classList.toggle('hidden', visibleRows > 0);
+      }
+    }
+
+    searchInput.addEventListener('input', filterQuestions);
+    categoryFilter.addEventListener('change', filterQuestions);
+    difficultyFilter.addEventListener('change', filterQuestions);
+  });
+</script>
 {% endblock %}

@@ -1,41 +1,85 @@
-from django.shortcuts import render
+import os
+import re
+import markdown
+from django.conf import settings
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from course.models import Course, Chapter   
-import markdown, markdown2
-
-# from datayatra import course
-# Create your views here.
+from .models import Course
 
 
+# ✅ Helper to clean chapter titles from filenames
+def clean_title(filename):
+    name = re.sub(r"^\d+(\.\d+)?[_ ]*", "", filename)  # Remove leading digits, underscore or space
+    name = name.replace(".md", "").replace("_", " ").strip()
+    return name.capitalize()
+
+
+# ✅ Get all chapter metadata from markdown files
+def get_chapter_list():
+    folder = os.path.join(settings.BASE_DIR, 'course', 'Dy_courses', 'Python')
+    files = sorted([f for f in os.listdir(folder) if f.endswith('.md')])
+    return [{"filename": f, "title": clean_title(f)} for f in files]
+
+
+# ✅ Main view for the course
 def index(request):
-    data = Course.objects.all()
-    return   render(request, 'course/index.html', {'data': data})
+    chapters = get_chapter_list()
+    chapter_param = request.GET.get('chapter')
+    current = next((c for c in chapters if c["filename"] == chapter_param), chapters[0])
+    current_index = chapters.index(current)
 
-def course_detail(request, course_id, chapter_order=0):
-    # read md file from a dir
-    print(course_id, chapter_order)
-    
-    # het course object with course_id and chapter_order
-    course = Course.objects.get(course_id=course_id)
-    # get the chapter object with chapter_order
-    chapter = course.chapter_set.filter(chapter_order=chapter_order).first()
-    if not chapter:
-        return HttpResponse("Chapter not found", status=404)
-    chapters = Chapter.objects.filter(course_id=course_id).order_by('chapter_order')
-    chapter_name = chapter.chapter_name
-    filepath = f"./course/Dy_courses/{course_id}/{chapter_name}.md"
-    print(f"filepath: {filepath}")
-    
-    with open(filepath, 'r', encoding='utf-8') as f:
-        md_text = f.read()
-    # convert md to html
-    # md = markdown.Markdown()
-    # html_text = md.convert(md_text)
-    html_text = markdown2.markdown(md_text, extras=['fenced-code-blocks', 'tables', 'code-friendly', 'toc', 'cuddled-lists', 'strike', 'task_list', 'pyshell', 'highlightjs-lang'])
-    context = {'course_content': html_text, 
-               'course_id': course_id, 
-               'chapter_order': chapter_order,
-               'chapters': chapters,
-               }
-    return render(request, 'course/course_detail.html', context)
-    
+    filepath = os.path.join(settings.BASE_DIR, 'course', 'Dy_courses', 'Python', current["filename"])
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            md_text = f.read()
+    except FileNotFoundError:
+        return HttpResponse("Chapter not found.", status=404)
+
+    # ✅ Convert Markdown to HTML
+    html = markdown.markdown(md_text)
+
+    # ✅ Determine previous and next chapters
+    prev_chapter = chapters[current_index - 1] if current_index > 0 else None
+    next_chapter = chapters[current_index + 1] if current_index < len(chapters) - 1 else None
+
+    # ✅ Define course milestone triggers
+    milestones = {
+        "operator": 25,
+        "list comprehension": 50,
+        "join tuple": 75,
+        "python dictionary": 100,
+    }
+
+    # ✅ Check if `?next=1` is present and current chapter is a milestone
+    milestone_percent = 0
+    if 'next' in request.GET:
+        current_title = current["title"].lower()
+        for keyword, percent in milestones.items():
+            if keyword in current_title:
+                milestone_percent = percent
+                break
+
+    # ✅ Render the course reading page
+    return render(request, 'course/python.html', {
+        "markdown_content": html,
+        "chapters": chapters,
+        "current_chapter": current["filename"],
+        "prev_chapter": prev_chapter,
+        "next_chapter": next_chapter,
+        "milestone_percent": milestone_percent,
+    })
+
+
+# ✅ Show all available courses (if needed)
+def course_detail(request):
+    courses = Course.objects.all()
+    return render(request, 'course/course_detail.html', {'courses': courses})
+
+
+# ✅ Start a specific course/chapter manually (if needed)
+def start_course(request, course_id, chapter):
+    course = get_object_or_404(Course, course_id=course_id)
+    return render(request, 'course/start.html', {
+        'course': course,
+        'chapter': chapter
+    })

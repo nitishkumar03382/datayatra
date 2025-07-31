@@ -131,7 +131,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'datayatra',
         'USER': 'root',
-        'PASSWORD': '0404',
+        'PASSWORD': 'Manjeet@123',
         'HOST': 'localhost',  # or IP/hostname
         'PORT': '3306',        # default MySQL port
     },

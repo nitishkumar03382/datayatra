@@ -1,165 +1,147 @@
 {% load static %}
-
 {% load static tailwind_tags %}
-
-
-<!-- templates/base.html -->
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.1.0/github-markdown.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css" integrity="sha512-58P9Hy7II0YeXLv+iFiLCv1rtLW47xmiRpC1oFafeKNShp8V5bKV/ciVtYqbk2YfxXQMt58DjNfkXFOn62xE+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script>hljs.highlightAll();</script>
-<style>
-  @keyframes pulse-glow {
-  0% {
-    box-shadow: 0 0 10px #3b82f6;
-  }
-  50% {
-    box-shadow: 0 0 20px #2568d6, 0 0 30px #2568d6;
-  }
-  100% {
-    box-shadow: 0 0 10px #1308b0;
-  }
-}
-  .neon-glow {
-    /* box-shadow: 0 0 10px #3b82f6, 0 0 20px #4e22c5, 0 0 30px #2279c5, 0 0 40px #2d22c5; */
-    animation: pulse-glow 2s infinite alternate;
-  }
-  .font-handwriting {
-    font-family: 'Patrick Hand', cursive;
-  }
-  .font-chalk {
-    font-family: 'Patrick Hand', cursive;
-  }
-  .notebook-bg {
-    background-image: repeating-linear-gradient(
-      white,
-      white 28px,
-      #d3d3d3 29px
-    );
-  }
-</style>
-    <title>{% block title %}Data-Yatra{% endblock %}</title>
-    {% tailwind_css %}
-</head>
-<body>
-
-    <!-- Header -->
-    <!-- Place this in base.html inside <body> -->
-
-<nav class="bg-stone-900 text-stone-100 shadow-md fixed w-full z-10 top-0 left-0 mt-0">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-12 justify-center">
-      
-      <!-- Brand Logo & Name -->
-      
-      <div class="flex-shrink-0">
-        <a href="{% url 'home' %}" class="text-xl font-bold text-white">
-        <img src="{% static 'images/datayatra_transparent.png' %}" alt="Data Yatra"
-             class="h-10 w-10 inline-block">
-        </a>
-      </div>
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.1.0/github-markdown.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
   
-      <!-- Desktop Navigation Links -->
-      <div class="hidden md:flex space-x-8 mx-auto justify-center text-center">
-        <a href="{% url 'home' %}" class="hover:text-indigo-400">Home</a>
-        <a href="{% url 'practice:question_list' %}" class="hover:text-indigo-400">>Practice</a>
-        <a href="{% url 'practice:case_study' %}" class="hover:text-indigo-400">>Case Study</a>
-        <a href="{% url 'course:index' %}" class="hover:text-indigo-400">Courses</a>
-        <a href="{% url 'blog:index' %}" class="hover:text-indigo-400">>Blogs</a>
-        
-      </div>
-      <div class="justify-end  ">
-        {% if request.user.is_authenticated %}
-        <span class="text-stone-100 font-bold">{{user.username}}</span>
-          <a href="{% url 'logout' %}" class="hover:text-indigo-400">Logout</a>
-        
-            
-        {% else %}
-          <a href="{% url 'login' %}" class="hover:text-indigo-400 font-bold  drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)] transition duration-300">Login</a>
-          <!-- <a href="{% url 'signup' %}" class="hover:text-indigo-400">Signup</a> -->
-        {% endif %}
-      </div>
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden">
-        <button id="menu-toggle" class="focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-    </div>
-    </div>
-    <!-- Mobile Navigation Links -->
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
-    <!-- <a href="#" class="block hover:text-indigo-400">Home</a> -->
-    <a href="{% url 'practice:question_list' %}" class="block hover:text-indigo-400">Practice</a>
-    <a href="{% url 'practice:case_study' %}" class="hover:text-indigo-400">>Case Study</a>
-    <a href="{% url 'course:index' %}" class="block hover:text-indigo-400">Courses</a>
-    <a href="{% url 'blog:index' %}" class="block hover:text-indigo-400">Blogs</a>
-    {% if request.user.is_authenticated %}
-          <a href="{% url 'logout' %}" class="block hover:text-indigo-400">Logout</a>
-        
-            <span>{{user.username}}</span>
-        {% else %}
-          <a href="{% url 'login' %}" class="block hover:text-indigo-400">Login</a>
-          <a href="{% url 'signup' %}" class="block hover:text-indigo-400">Signup</a>
-        {% endif %}
-  </div>
+  <link rel="icon" type="image/png" href="{% static 'images/datayatra_transparent.png' %}">
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>
-    const toggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('mobile-menu');
-    toggle.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
     });
   </script>
-  </nav>
-  
 
-    <!-- Page Content -->
-    <main class="bg-stone-900 mt-10">
-        {% block content %}
-        {% endblock %}
-    </main>
+  <style>
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 10px #3b82f6; }
+      50% { box-shadow: 0 0 20px #2568d6, 0 0 30px #2568d6; }
+      100% { box-shadow: 0 0 10px #1308b0; }
+    }
+    .neon-glow { animation: pulse-glow 2s infinite alternate; }
+    .font-handwriting { font-family: 'Patrick Hand', cursive; }
+    .font-chalk { font-family: 'Patrick Hand', cursive; }
+    .notebook-bg { background-image: repeating-linear-gradient(white, white 28px, #d3d3d3 29px); }
+  </style>
 
-    <!-- Footer -->
-    <footer class="bg-stone-800 border-t border-stone-700 py-8 px-4">
-  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div>
-      <h3 class="text-stone-100 text-lg font-semibold mb-4">About</h3>
-      <p class="text-stone-400 text-sm">DataYatra helps you learn SQL, Python, and Data Engineering through practical tutorials and real-world projects.</p>
-    </div>
-    <div>
-      <h3 class="text-stone-100 text-lg font-semibold mb-4">Quick Links</h3>
-      <ul class="space-y-2">
-        <li><a href="{% url 'course:index' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Courses</a></li>
-        <li><a href="{% url 'practice:question_list' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Practice</a></li>
-        <li><a href="{% url 'blog:index' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Blog</a></li>
-        <li><a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <h3 class="text-stone-100 text-lg font-semibold mb-4">Follow Us</h3>
-      <div class="flex space-x-4">
-        <a href="https://instagram.com/datayatra/" class="text-stone-400 hover:text-indigo-400 transition-colors">#Instagram</a>
-        <a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">LinkedIn</a>
-        <a href="https://www.youtube.com/@data-yatra" class="text-stone-400 hover:text-indigo-400 transition-colors">YouTube</a>
+  <title>{% block title %}Data-Yatra{% endblock %}</title>
+  {% tailwind_css %}
+</head>
+
+<!-- ✅ Apply dark background to whole page -->
+<body class="bg-stone-900 text-stone-100">
+
+  <!-- ✅ Navbar -->
+  <nav class="bg-stone-900 text-stone-100 shadow-lg shadow-indigo-500/30 fixed w-full z-10 top-0 left-0 mt-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14 md:h-16 justify-center">
+
+        <div class="flex-shrink-0">
+          <a href="{% url 'home' %}" class="text-xl font-bold text-white">
+            <img src="{% static 'images/datayatra_transparent.png' %}" alt="Data Yatra" class="h-10 w-10 inline-block">
+          </a>
+        </div>
+
+        <div class="hidden md:flex space-x-8 mx-auto justify-center text-center">
+          <a href="{% url 'home' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Home</a>
+          <a href="{% url 'practice:question_list' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Practice</a>
+          <a href="{% url 'practice:case_study' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Case Study</a>
+          <a href="{% url 'course:course_list' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Courses</a>
+          <a href="{% url 'blog:index' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Blogs</a>
+        </div>
+
+        <div class="justify-end">
+          {% if request.user.is_authenticated %}
+            <span class="text-stone-100 font-bold mr-4">{{ user.username }}</span>
+            <a href="{% url 'logout' %}" class="hover:text-indigo-400">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="hover:text-indigo-400 font-bold drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)] transition duration-300">Login</a>
+          {% endif %}
+        </div>
+
+        <div class="md:hidden">
+          <button id="menu-toggle" class="focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="text-center text-stone-500 text-sm mt-8">© 2025 DataYatra. All rights reserved.</div>
-</footer>
-    <script src="{% static 'js/base.js' %}"></script>
+
+    <div id="mobile-menu" class="md:hidden hidden bg-stone-900 px-4 pb-4 space-y-2">
+      <a href="{% url 'home' %}" class="block hover:text-indigo-400">Home</a>
+      <a href="{% url 'practice:question_list' %}" class="block hover:text-indigo-400">Practice</a>
+      <a href="{% url 'practice:case_study' %}" class="block hover:text-indigo-400">Case Study</a>
+      <a href="{% url 'course:index' %}" class="block hover:text-indigo-400">Courses</a>
+      <a href="{% url 'blog:index' %}" class="block hover:text-indigo-400">Blogs</a>
+      <hr class="border-stone-700">
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="block hover:text-indigo-400">Logout</a>
+        <span class="block text-stone-400">{{ user.username }}</span>
+      {% else %}
+        <a href="{% url 'login' %}" class="block hover:text-indigo-400">Login</a>
+        <a href="{% url 'signup' %}" class="block hover:text-indigo-400">Signup</a>
+      {% endif %}
+    </div>
+
+    <script>
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      toggle.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    </script>
+  </nav>
+
+  <!-- ✅ Add top margin to push content below fixed navbar -->
+  <main class="bg-stone-900 mt-14 md:mt-16">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  {% block footer %}
+  <footer class="bg-stone-800 border-t border-stone-700 py-8 px-4">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8" id="footer">
+      <div>
+        <h3 class="text-stone-100 text-lg font-semibold mb-4">About</h3>
+        <p class="text-stone-400 text-sm">DataYatra helps you learn SQL, Python, and Data Engineering through practical tutorials and real-world projects.</p>
+      </div>
+      <div>
+        <h3 class="text-stone-100 text-lg font-semibold mb-4">Quick Links</h3>
+        <ul class="space-y-2">
+          <li><a href="{% url 'course:index' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Courses</a></li>
+          <li><a href="{% url 'practice:question_list' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Practice</a></li>
+          <li><a href="{% url 'blog:index' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Blog</a></li>
+          <li><a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-stone-100 text-lg font-semibold mb-4">Follow Us</h3>
+        <div class="flex space-x-4">
+          <a href="https://instagram.com/datayatra/" class="text-stone-400 hover:text-indigo-400 transition-colors">Instagram</a>
+          <a href="https://www.linkedin.com/company/datayatra/about/" class="text-stone-400 hover:text-indigo-400 transition-colors">LinkedIn</a>
+          <a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">YouTube</a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-stone-500 text-sm mt-8">© 2025 DataYatra. All rights reserved.</div>
+  </footer>
+  {% endblock footer %}
+
+  <script src="{% static 'js/base.js' %}"></script>
 </body>
+
 </html>

@@ -1,0 +1,46 @@
+[
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS patient;",
+      "CREATE TABLE patient (id INT, name VARCHAR(100), gender VARCHAR(10), dob DATE, aadhar_no VARCHAR(12), address TEXT, district VARCHAR(50), state VARCHAR(50));",
+      "INSERT INTO patient VALUES (1, 'Rani Devi', 'Female', '1980-04-11', '123456789012', 'Gaya Bazaar, Bihar', 'Gaya', 'Bihar');",
+      "INSERT INTO patient VALUES (2, 'Rajat Kumar', 'Male', '1992-01-01', '234567890123', 'Main Road, Patna', 'Patna', 'Bihar');",
+      "INSERT INTO patient VALUES (3, 'Arvind Yadav', 'Male', '1985-03-23', '345678901234', 'Civil Lines, Gaya', 'Gaya', 'Bihar');",
+      "INSERT INTO patient VALUES (4, 'Priya Singh', 'Female', '1999-09-09', '456789012345', 'Kankarbagh, Patna', 'Patna', 'Bihar');",
+      "INSERT INTO patient VALUES (5, 'Sanjay Jha', 'Male', '1975-12-12', '567890123456', 'Sector 1, Ranchi', 'Ranchi', 'Jharkhand');"
+    ],
+    "query": "SELECT district, COUNT(*) AS total_patients FROM patient WHERE state = 'Bihar' GROUP BY district;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS patient;",
+      "CREATE TABLE patient (id INT, name VARCHAR(100), gender VARCHAR(10), dob DATE, aadhar_no VARCHAR(12), address TEXT, district VARCHAR(50), state VARCHAR(50));",
+      "INSERT INTO patient VALUES (10, 'Anil Sharma', 'Male', '1981-01-01', '888877776666', 'Main Street, Muzaffarpur', 'Muzaffarpur', 'bihar');"
+    ],
+    "query": "SELECT district, COUNT(*) AS total_patients FROM patient WHERE state = 'Bihar' GROUP BY district;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS patient;",
+      "CREATE TABLE patient (id INT, name VARCHAR(100), gender VARCHAR(10), dob DATE, aadhar_no VARCHAR(12), address TEXT, district VARCHAR(50), state VARCHAR(50));",
+      "INSERT INTO patient VALUES (20, 'Komal Raj', 'Female', '1990-07-07', '999988887777', 'Nalanda, Bihar', 'Nalanda', 'Bihar');",
+      "INSERT INTO patient VALUES (21, 'Vinay Tiwari', 'Male', '1994-02-10', '000011112222', 'Nalanda', 'Nalanda', 'Bihar');"
+    ],
+    "query": "SELECT district, COUNT(*) AS total_patients FROM patient WHERE state = 'Bihar' GROUP BY district;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS patient;",
+      "CREATE TABLE patient (id INT, name VARCHAR(100), gender VARCHAR(10), dob DATE, aadhar_no VARCHAR(12), address TEXT, district VARCHAR(50), state VARCHAR(50));",
+      "INSERT INTO patient VALUES (30, 'Deepak Kumar', 'Male', '1986-06-06', '123412341234', 'Dhanbad', 'Dhanbad', 'Jharkhand');"
+    ],
+    "query": "SELECT district, COUNT(*) AS total_patients FROM patient WHERE state = 'Bihar' GROUP BY district;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS patient;",
+      "CREATE TABLE patient (id INT, name VARCHAR(100), gender VARCHAR(10), dob DATE, aadhar_no VARCHAR(12), address TEXT, district VARCHAR(50), state VARCHAR(50));"
+    ],
+    "query": "SELECT district, COUNT(*) AS total_patients FROM patient WHERE state = 'Bihar' GROUP BY district;"
+  }
+]

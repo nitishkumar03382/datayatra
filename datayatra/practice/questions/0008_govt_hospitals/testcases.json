@@ -1,0 +1,49 @@
+[
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), type VARCHAR(50), state VARCHAR(50), district VARCHAR(50));",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (1, 'Patna Medical College', 'Government', 'Bihar', 'Patna');",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (2, 'AIIMS Delhi', 'Government', 'Delhi', 'New Delhi');",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (3, 'Fortis Hospital Mumbai', 'Private', 'Maharashtra', 'Mumbai');",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (4, 'Nalanda District Hospital', 'Government', 'Bihar', 'Nalanda');",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (5, 'Max Hospital', 'Private', 'Bihar', 'Patna');"
+    ],
+    "query": "SELECT name FROM hospital WHERE type = 'Government' AND state = 'Bihar';"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), type VARCHAR(50), state VARCHAR(50), district VARCHAR(50));",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (10, 'Gaya Civil Hospital', 'Government', 'BIHAR', 'Gaya');",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (11, 'Siwan Sadar Hospital', 'Government', 'Bihar', 'Siwan');"
+    ],
+    "query": "SELECT name FROM hospital WHERE type = 'Government' AND state = 'Bihar';"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), type VARCHAR(50), state VARCHAR(50), district VARCHAR(50));",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (20, 'Darbhanga Medical College', 'government', 'Bihar', 'Darbhanga');",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (21, 'Katihar Private Hospital', 'Private', 'Bihar', 'Katihar');"
+    ],
+    "query": "SELECT name FROM hospital WHERE type = 'Government' AND state = 'Bihar';"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), type VARCHAR(50), state VARCHAR(50), district VARCHAR(50));",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (30, 'Bettiah Govt Hospital', 'Government', 'Bihar', 'West Champaran');",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (31, 'Samastipur General Hospital', 'GOVERNMENT', 'BIHAR', 'Samastipur');"
+    ],
+    "query": "SELECT name FROM hospital WHERE type = 'Government' AND state = 'Bihar';"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), type VARCHAR(50), state VARCHAR(50), district VARCHAR(50));",
+      "INSERT INTO hospital (id, name, type, state, district) VALUES (40, 'No Bihar Govt Hospital', 'Government', 'Uttar Pradesh', 'Varanasi');"
+    ],
+    "query": "SELECT name FROM hospital WHERE type = 'Government' AND state = 'Bihar';"
+  }
+]

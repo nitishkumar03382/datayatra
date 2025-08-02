@@ -1,0 +1,46 @@
+[
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS visit;",
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), district VARCHAR(100), state VARCHAR(100));",
+      "CREATE TABLE visit (id INT, patient_id INT, hospital_id INT, visit_date DATE);",
+      "INSERT INTO hospital VALUES (1, 'Patna General', 'Patna', 'Bihar'), (2, 'Aurangabad Care', 'Aurangabad', 'Bihar'), (3, 'Ranchi Trauma', 'Ranchi', 'Jharkhand');",
+      "INSERT INTO visit VALUES (1, 101, 1, '2023-01-02'), (2, 102, 1, '2023-01-05'), (3, 103, 2, '2023-01-07'), (4, 104, 1, '2023-01-08');"
+    ],
+    "query": "SELECT h.name, COUNT(*) AS total_visits FROM visit v JOIN hospital h ON v.hospital_id = h.id WHERE h.state = 'Bihar' GROUP BY h.name ORDER BY total_visits DESC LIMIT 1;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS visit;",
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), district VARCHAR(100), state VARCHAR(100));",
+      "CREATE TABLE visit (id INT, patient_id INT, hospital_id INT, visit_date DATE);",
+      "INSERT INTO hospital VALUES (1, 'Bodh Gaya Hospital', 'Gaya', 'Bihar'), (2, 'Nalanda Wellness', 'Nalanda', 'Bihar');",
+      "INSERT INTO visit VALUES (1, 201, 2, '2023-03-02'), (2, 202, 2, '2023-03-05'), (3, 203, 2, '2023-03-09'), (4, 204, 1, '2023-03-11');"
+    ],
+    "query": "SELECT h.name, COUNT(*) AS total_visits FROM visit v JOIN hospital h ON v.hospital_id = h.id WHERE h.state = 'Bihar' GROUP BY h.name ORDER BY total_visits DESC LIMIT 1;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS visit;",
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), district VARCHAR(100), state VARCHAR(100));",
+      "CREATE TABLE visit (id INT, patient_id INT, hospital_id INT, visit_date DATE);",
+      "INSERT INTO hospital VALUES (1, 'Begusarai Medical', 'Begusarai', 'Bihar'), (2, 'Siwan Health Center', 'Siwan', 'Bihar');",
+      "INSERT INTO visit VALUES (1, 301, 1, '2023-04-10'), (2, 302, 2, '2023-04-12');"
+    ],
+    "query": "SELECT h.name, COUNT(*) AS total_visits FROM visit v JOIN hospital h ON v.hospital_id = h.id WHERE h.state = 'Bihar' GROUP BY h.name ORDER BY total_visits DESC LIMIT 1;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS visit;",
+      "DROP TABLE IF EXISTS hospital;",
+      "CREATE TABLE hospital (id INT, name VARCHAR(100), district VARCHAR(100), state VARCHAR(100));",
+      "CREATE TABLE visit (id INT, patient_id INT, hospital_id INT, visit_date DATE);",
+      "INSERT INTO hospital VALUES (1, 'Patna Clinic', 'Patna', 'Bihar'), (2, 'Muzaffarpur Health', 'Muzaffarpur', 'Bihar'), (3, 'Dhanbad General', 'Dhanbad', 'Jharkhand');",
+      "INSERT INTO visit VALUES (1, 401, 3, '2023-05-01');"
+    ],
+    "query": "SELECT h.name, COUNT(*) AS total_visits FROM visit v JOIN hospital h ON v.hospital_id = h.id WHERE h.state = 'Bihar' GROUP BY h.name ORDER BY total_visits DESC LIMIT 1;"
+  }
+]

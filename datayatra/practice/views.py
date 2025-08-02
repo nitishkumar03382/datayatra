@@ -93,7 +93,7 @@ def run_code(request, qid):
         tc_filepath = question.get_testcase_path()
         with open(tc_filepath, 'r', encoding='utf-8') as f:
             test_cases = json.load(f)
-        
+        print(user_input)
         with connections['sandbox'].cursor() as cursor:
             #execute test case setup
             setup_qry = test_cases[0]['setup']
@@ -105,7 +105,7 @@ def run_code(request, qid):
                 cursor.execute(qry)
 
             # Execute user input query
-            print(f"Executing user input query...")
+            print(f"Executing user input query...{qry}")
             try:
                 cursor.execute(user_input)
                 result = cursor.fetchall()

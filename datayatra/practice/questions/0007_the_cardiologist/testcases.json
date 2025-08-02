@@ -1,0 +1,31 @@
+[
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS doctor;",
+      "CREATE TABLE doctor (id INT, name VARCHAR(100), specialization VARCHAR(50), is_government BOOLEAN, years_experience INT);",
+      "INSERT INTO doctor (id, name, specialization, is_government, years_experience) VALUES (1, 'Dr. A. Sinha', 'Cardiology', TRUE, 12);",
+      "INSERT INTO doctor (id, name, specialization, is_government, years_experience) VALUES (2, 'Dr. R. Mehra', 'Dermatology', FALSE, 8);",
+      "INSERT INTO doctor (id, name, specialization, is_government, years_experience) VALUES (3, 'Dr. Neha Shah', 'Cardiology', TRUE, 6);",
+      "INSERT INTO doctor (id, name, specialization, is_government, years_experience) VALUES (4, 'Dr. I. Qureshi', 'Neurology', FALSE, 15);"
+    ],
+    "query": "SELECT name, years_experience FROM doctor WHERE specialization = 'Cardiology';"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS doctor;",
+      "CREATE TABLE doctor (id INT, name VARCHAR(100), specialization VARCHAR(50), is_government BOOLEAN, years_experience INT);",
+      "INSERT INTO doctor (id, name, specialization, is_government, years_experience) VALUES (5, 'Dr. Kamal Joshi', 'Cardiology', FALSE, 10);",
+      "INSERT INTO doctor (id, name, specialization, is_government, years_experience) VALUES (6, 'Dr. Anita Rao', 'Pediatrics', TRUE, 7);"
+    ],
+    "query": "SELECT name, years_experience FROM doctor WHERE specialization = 'Cardiology';"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS doctor;",
+      "CREATE TABLE doctor (id INT, name VARCHAR(100), specialization VARCHAR(50), is_government BOOLEAN, years_experience INT);",
+      "INSERT INTO doctor (id, name, specialization, is_government, years_experience) VALUES (7, 'Dr. M. Ali', 'Orthopedics', TRUE, 11);",
+      "INSERT INTO doctor (id, name, specialization, is_government, years_experience) VALUES (8, 'Dr. Pooja Ghosh', 'Cardiology', FALSE, 9);"
+    ],
+    "query": "SELECT name, years_experience FROM doctor WHERE specialization = 'Cardiology';"
+  }
+]

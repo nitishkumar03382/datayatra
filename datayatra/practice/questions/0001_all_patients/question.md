@@ -1,38 +1,54 @@
 # All Patients
 
-Table: `Patient`
+### Table: `patient`
 
-Column Name  | DataType
--------------|---------
-id|int
-name|varchar
-physician_id|int
+| Column      | Data Type   | Description                    |
+|-------------|-------------|--------------------------------|
+| id          | INT         | Unique patient ID              |
+| name        | VARCHAR     | Patient's full name            |
+| gender      | VARCHAR     | Gender (Male/Female/Other)     |
+| dob         | DATE        | Date of birth                  |
+| aadhar_no   | VARCHAR     | Aadhar number (12-digit)       |
+| address     | TEXT        | Full address                   |
+| district    | VARCHAR     | District the patient belongs to|
 
-Write sql query to fetch all patients details from the `patient` table
+---
+#### 📄 Description:  
+In any healthcare system, maintaining a registry of all patients is fundamental. This question tests your ability to perform a **basic SELECT** operation from the `patient` table.
 
-The result fromat is in the following example.
+#### 🎯 Objective:  
+Write a query to fetch the name, gender, and district of all patients in the system.
 
-**Example 1:**
+#### 📦 Table Involved:  
+- `patient(id, name, gender, dob, aadhar_no, address, district)`
 
-**Input**
-`Patient Table:`
+#### 📥 Example Input (`patient` table):
 
-id | name | physician_id
----|------|------------
-1|Jhon Doe|096
-2|Krish Jay|099
-4|Herman Sen|099
+| id | name           | gender | dob        | aadhar_no     | address                     | district     |
+|----|----------------|--------|------------|---------------|-----------------------------|--------------|
+| 1  | Rahul Verma    | Male   | 1992-04-15 | 123456789012  | 123 MG Road, Kanpur         | Kanpur       |
+| 2  | Asha Rani      | Female | 1985-10-20 | 987654321098  | 45 Civil Lines, Bhopal      | Bhopal       |
+| 3  | Ramesh Kumar   | Male   | 1975-12-05 | 112233445566  | Sector 3, Gandhinagar       | Gandhinagar  |
 
-**Output:** Order doesn`t matter
+---
 
-id | name | physician_id
----|------|------------
-1|Jhon Doe|096
-2|Krish Jay|099
-4|Herman Sen|099
+#### 🎯 Expected Output:
+
+| name         | gender | district    |
+|--------------|--------|-------------|
+| Rahul Verma  | Male   | Kanpur      |
+| Asha Rani    | Female | Bhopal      |
+| Ramesh Kumar | Male   | Gandhinagar |
+
+---
 
 
 
+#### 🧪 Expected Output Columns:  
+- `name`
+- `gender`
+- `district`
 
 
 
+#### 🔰 Difficulty: Easy

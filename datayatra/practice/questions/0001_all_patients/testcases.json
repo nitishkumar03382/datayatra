@@ -1,33 +1,28 @@
 [
-    {
-      "setup": [
-       "drop table if exists patient;",
-        "create table patient(id int,name varchar(255),physician_id int);",
-        "insert into patient values (1,'Jhon Doe',96);",
-        "insert into patient values (2,'Krish Jay',99);",
-        "insert into patient values (4,'Herman Sen',099);"
-      ],
-      "query": "SELECT * FROM patient"
-    },
-    {
-      "setup": [
-       "drop table if exists patient;",
-        "create table patient(id int,name varchar(255),physician_id int);",
-        "insert into patient values (2,'Karam Doe',96);",
-        "insert into patient values (3,'Nitish Kumar',99);",
-        "insert into patient values (10,'Manjeet Kumar',099);",
-        "insert into patient values (11,NULL,099);",
-        "insert into patient values (12,'Indra Singh',099);"
-        
-      ],
-      "query": "SELECT * FROM patient"
-    },
-    {
-      "setup": [
-       "drop table if exists patient;",
-        "create table patient(id int,name varchar(255),physician_id int);"
-        
-      ],
-      "query": "SELECT * FROM patient"
-    }
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS patient;",
+      "CREATE TABLE patient (id INT PRIMARY KEY, name VARCHAR(100),gender varchar(10), dob date, aadhar_no VARCHAR(12), address VARCHAR(100), district VARCHAR(30));",
+      "INSERT INTO patient (id, name, gender, dob, aadhar_no, address, district) VALUES (1, 'Rahul Verma', 'Male', '1992-04-15', '123456789012', '123 MG Road, Kanpur', 'Kanpur');",
+      "INSERT INTO patient (id, name, gender, dob, aadhar_no, address, district) VALUES (2, 'Asha Rani', 'Female', '1985-10-20', '987654321098', '45 Civil Lines, Bhopal', 'Bhopal');",
+      "INSERT INTO patient (id, name, gender, dob, aadhar_no, address, district) VALUES (3, 'Ramesh Kumar', 'Male', '1975-12-05', '112233445566', 'Sector 3, Gandhinagar', 'Gandhinagar');"
+    ],
+    "query": "SELECT name, gender, district FROM patient;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS patient;",
+      "CREATE TABLE patient (id INT PRIMARY KEY, name VARCHAR(100),gender varchar(10), dob date, aadhar_no VARCHAR(12), address VARCHAR(100), district VARCHAR(30));",
+      "INSERT INTO patient (id, name, gender, dob, aadhar_no, address, district) VALUES (101, 'Anjali Singh', 'Female', '1995-08-25', '998877665544', 'Shivaji Nagar, Pune', 'Pune');",
+      "INSERT INTO patient (id, name, gender, dob, aadhar_no, address, district) VALUES (102, 'Vikram Desai', 'Male', '1988-03-19', '556677889900', 'MG Road, Surat', 'Surat');"
+    ],
+    "query": "SELECT name, gender, district FROM patient;"
+  },
+  {
+    "setup": [
+      "DROP TABLE IF EXISTS patient;",
+      "CREATE TABLE patient (id INT PRIMARY KEY, name VARCHAR(100),gender varchar(10), dob date, aadhar_no VARCHAR(12), address VARCHAR(100), district VARCHAR(30));"
+    ],
+    "query": "SELECT name, gender, district FROM patient;"
+  }
 ]

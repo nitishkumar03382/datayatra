@@ -5,15 +5,15 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.1.0/github-markdown.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
-  
-  <link rel="icon" type="image/png" href="{% static 'images/datayatra_transparent.png' %}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.1.0/github-markdown.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css" />
+  <link rel="icon" type="image/png" href="{% static 'images/datayatra_transparent.png' %}" />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>
@@ -26,55 +26,83 @@
 
   <style>
     @keyframes pulse-glow {
-      0% { box-shadow: 0 0 10px #3b82f6; }
-      50% { box-shadow: 0 0 20px #2568d6, 0 0 30px #2568d6; }
-      100% { box-shadow: 0 0 10px #1308b0; }
+      0% {
+        box-shadow: 0 0 10px #3b82f6;
+      }
+
+      50% {
+        box-shadow: 0 0 20px #2568d6, 0 0 30px #2568d6;
+      }
+
+      100% {
+        box-shadow: 0 0 10px #1308b0;
+      }
     }
-    .neon-glow { animation: pulse-glow 2s infinite alternate; }
-    .font-handwriting { font-family: 'Patrick Hand', cursive; }
-    .font-chalk { font-family: 'Patrick Hand', cursive; }
-    .notebook-bg { background-image: repeating-linear-gradient(white, white 28px, #d3d3d3 29px); }
+
+    .neon-glow {
+      animation: pulse-glow 2s infinite alternate;
+    }
+
+    .font-handwriting {
+      font-family: 'Patrick Hand', cursive;
+    }
+
+    .font-chalk {
+      font-family: 'Patrick Hand', cursive;
+    }
+
+    .notebook-bg {
+      background-image: repeating-linear-gradient(white, white 28px, #d3d3d3 29px);
+    }
   </style>
 
   <title>{% block title %}Data-Yatra{% endblock %}</title>
+
+  {% block meta %}
+    <meta property="og:title" content="Data-Yatra: Learn SQL, Python, and Data Engineering" />
+    <meta property="og:description" content="DataYatra helps you learn SQL, Python, and Data Engineering through practical tutorials, case studies, and real-world projects." />
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/datayatra_transparent.png' %}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+  {% endblock meta %}
+  
   {% tailwind_css %}
 </head>
 
-<!-- ✅ Apply dark background to whole page -->
 <body class="bg-stone-900 text-stone-100">
 
-  <!-- ✅ Navbar -->
   <nav class="bg-stone-900 text-stone-100 shadow-lg shadow-indigo-500/30 fixed w-full z-10 top-0 left-0 mt-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-14 md:h-16 justify-center">
+      <div class="flex justify-between items-center h-16 md:h-20">
 
         <div class="flex-shrink-0">
           <a href="{% url 'home' %}" class="text-xl font-bold text-white">
-            <img src="{% static 'images/datayatra_transparent.png' %}" alt="Data Yatra" class="h-10 w-10 inline-block">
+            <img src="{% static 'images/datayatra_transparent.png' %}" alt="Data Yatra" class="h-10 w-10 inline-block" />
           </a>
         </div>
 
-        <div class="hidden md:flex space-x-8 mx-auto justify-center text-center">
-          <a href="{% url 'home' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Home</a>
-          <a href="{% url 'practice:question_list' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Practice</a>
-          <a href="{% url 'practice:case_study' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Case Study</a>
-          <a href="{% url 'course:course_list' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Courses</a>
-          <a href="{% url 'blog:index' %}" class="hover:text-indigo-400 hover:shadow-[0_4px_0_rgba(255,255,255,0.8)] transition-shadow duration-300 pb-1">Blogs</a>
+        <div class="hidden md:flex space-x-8 mx-auto">
+          <a href="{% url 'home' %}" class="hover:text-indigo-400 transition-shadow pb-1">Home</a>
+          <a href="{% url 'practice:question_list' %}" class="hover:text-indigo-400 transition-shadow pb-1">Practice</a>
+          <a href="{% url 'practice:case_study' %}" class="hover:text-indigo-400 transition-shadow pb-1">Case Study</a>
+          <a href="{% url 'course:course_list' %}" class="hover:text-indigo-400 transition-shadow pb-1">Courses</a>
+          <a href="{% url 'blog:index' %}" class="hover:text-indigo-400 transition-shadow pb-1">Blogs</a>
         </div>
 
-        <div class="justify-end">
+        <div class="hidden md:flex items-center space-x-4">
           {% if request.user.is_authenticated %}
-            <span class="text-stone-100 font-bold mr-4">{{ user.username }}</span>
-            <a href="{% url 'logout' %}" class="hover:text-indigo-400">Logout</a>
+            <span class="bg-stone-800 text-white font-semibold px-3 py-1 rounded shadow-sm">{{ user.username }}</span>
+            <a href="{% url 'logout' %}" class="text-white px-3 py-1 rounded hover:bg-indigo-600 transition">Logout</a>
           {% else %}
-            <a href="{% url 'login' %}" class="hover:text-indigo-400 font-bold drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)] transition duration-300">Login</a>
+            <a href="{% url 'login' %}" class="hover:text-indigo-400 font-bold transition duration-300">Login</a>
           {% endif %}
         </div>
 
         <div class="md:hidden">
           <button id="menu-toggle" class="focus:outline-none">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         </div>
@@ -85,12 +113,15 @@
       <a href="{% url 'home' %}" class="block hover:text-indigo-400">Home</a>
       <a href="{% url 'practice:question_list' %}" class="block hover:text-indigo-400">Practice</a>
       <a href="{% url 'practice:case_study' %}" class="block hover:text-indigo-400">Case Study</a>
-      <a href="{% url 'course:index' %}" class="block hover:text-indigo-400">Courses</a>
+      <a href="{% url 'course:course_list' %}" class="block hover:text-indigo-400">Courses</a>
       <a href="{% url 'blog:index' %}" class="block hover:text-indigo-400">Blogs</a>
       <hr class="border-stone-700">
+
       {% if request.user.is_authenticated %}
-        <a href="{% url 'logout' %}" class="block hover:text-indigo-400">Logout</a>
-        <span class="block text-stone-400">{{ user.username }}</span>
+        <div class="block md:hidden">
+          <span class="block text-stone-400 font-bold">{{ user.username }}</span>
+          <a href="{% url 'logout' %}" class="block text-red-400 hover:text-indigo-400">Logout</a>
+        </div>
       {% else %}
         <a href="{% url 'login' %}" class="block hover:text-indigo-400">Login</a>
         <a href="{% url 'signup' %}" class="block hover:text-indigo-400">Signup</a>
@@ -106,8 +137,7 @@
     </script>
   </nav>
 
-  <!-- ✅ Add top margin to push content below fixed navbar -->
-  <main class="bg-stone-900 mt-14 md:mt-16">
+  <main class="bg-stone-900 mt-16 md:mt-20">
     {% block content %}
     {% endblock %}
   </main>
@@ -117,23 +147,25 @@
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8" id="footer">
       <div>
         <h3 class="text-stone-100 text-lg font-semibold mb-4">About</h3>
-        <p class="text-stone-400 text-sm">DataYatra helps you learn SQL, Python, and Data Engineering through practical tutorials and real-world projects.</p>
+        <p class="text-stone-400 text-sm">
+          DataYatra helps you learn SQL, Python, and Data Engineering through practical tutorials and real-world projects.
+        </p>
       </div>
       <div>
         <h3 class="text-stone-100 text-lg font-semibold mb-4">Quick Links</h3>
         <ul class="space-y-2">
-          <li><a href="{% url 'course:index' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Courses</a></li>
-          <li><a href="{% url 'practice:question_list' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Practice</a></li>
-          <li><a href="{% url 'blog:index' %}" class="text-stone-400 hover:text-indigo-400 transition-colors">Blog</a></li>
-          <li><a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">Contact</a></li>
+          <li><a href="{% url 'course:course_list' %}" class="text-stone-400 hover:text-indigo-400">Courses</a></li>
+          <li><a href="{% url 'practice:question_list' %}" class="text-stone-400 hover:text-indigo-400">Practice</a></li>
+          <li><a href="{% url 'blog:index' %}" class="text-stone-400 hover:text-indigo-400">Blog</a></li>
+          <li><a href="#" class="text-stone-400 hover:text-indigo-400">Contact</a></li>
         </ul>
       </div>
       <div>
         <h3 class="text-stone-100 text-lg font-semibold mb-4">Follow Us</h3>
         <div class="flex space-x-4">
-          <a href="https://instagram.com/datayatra/" class="text-stone-400 hover:text-indigo-400 transition-colors">Instagram</a>
-          <a href="https://www.linkedin.com/company/datayatra/about/" class="text-stone-400 hover:text-indigo-400 transition-colors">LinkedIn</a>
-          <a href="#" class="text-stone-400 hover:text-indigo-400 transition-colors">YouTube</a>
+          <a href="https://instagram.com/datayatra/" class="text-stone-400 hover:text-indigo-400">Instagram</a>
+          <a href="https://www.linkedin.com/company/datayatra/about/" class="text-stone-400 hover:text-indigo-400">LinkedIn</a>
+          <a href="#" class="text-stone-400 hover:text-indigo-400">YouTube</a>
         </div>
       </div>
     </div>

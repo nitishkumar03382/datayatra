@@ -1,5 +1,5 @@
 # Requirements for the project
 markdown
 mysqlclient
-python-mysql-connector
+mysql-connector-python
 django

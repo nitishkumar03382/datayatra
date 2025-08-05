@@ -1,0 +1,94 @@
+body {
+  background: linear-gradient(135deg, #fff1f9, #ffe3ec);
+  font-family: 'Patrick Hand', cursive;
+}
+
+h1.text-primary {
+  color: #352d30;
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.blog-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #f8bbd0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px); /* Changed from scale for a subtle lift */
+  box-shadow: 0 8px 30px rgba(216, 27, 96, 0.3);
+}
+
+.blog-title {
+  color: #2a2225;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.blog-title:hover {
+  color: #d81b60; /* A more vibrant hover color */
+  text-decoration: none;
+}
+
+.blog-date {
+  display: inline-block;
+  background: #f48fb1;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.text-justify {
+  text-align: justify;
+  color: #444;
+  font-size: 1.1rem;
+}
+
+.github-btn {
+  background: linear-gradient(45deg, #756789, #333333);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 10px;
+  transition: background 0.3s ease;
+}
+
+.github-btn:hover {
+  background: linear-gradient(45deg, #333333, #6e5494);
+  color: #fff;
+}
+
+.view-more-btn {
+  background: linear-gradient(90deg, #ff80ab, #ae657e);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.view-more-btn:hover {
+  background: linear-gradient(90deg, #c88fa2, #ff80ab);
+  color: #fff;
+}
+
+.blog-image {
+  width: 100%;
+  height: 200px; /* Giving a fixed height for consistency */
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}

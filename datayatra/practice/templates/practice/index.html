@@ -1,145 +1,274 @@
-{% load static tailwind_tags %}
 {% extends 'base.html' %}
+{% load static %}
 <head>
-  {% tailwind_css %}
+{% block title %}{{question.title}}{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs/loader.js"></script>
 </head>
-
-
-
-
-
-{% block title %}Practice{% endblock %}
-
 {% block content %}
-<div class="main grid grid-cols-2 gap-4 bg-slate-500">
-    <div class="description">
-        {{question_description |safe}}
-    </div>
-    <div class="code-section">
-        <form id="codeForm">
-            {% csrf_token %}
-            <textarea name="user_code" id="user_code" 
-            placeholder="Write your code here..."
-            width="500px" rows="10"></textarea><br>
-        
-            <button type="submit">Run</button>
-        </form>
-        <div class="output" id="resultDiv"></div>
-    </div>
-</div> 
-<!-- main class end -->
-{% endblock %}
-    <script>
-        document.getElementById("codeForm").addEventListener("submit", function(e) {
-          e.preventDefault();
-          console.log("inside codeForm JS");
-          const code = document.getElementById("user_code").value;
-          const formData = new FormData();
-          formData.append("user_code", code);
+<style>
+    h1{
+        font-size: 2rem;
+        color: #333;
+    }
+    #editor-container {
+      width: 100%;
+      height: 300px;
+    }
+    .all-unset {
+        all: unset;
+        display: block;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(120, 120, 120, 0.6);
+      border-radius: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
     
-          fetch("{% url 'practice:run_code' %}", {
-            method: "POST",
-            headers: {
-              "X-CSRFToken": getCookie("csrftoken")
-            },
-            body: formData
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data.result)
-            console.log(data.columns);
-            
-            header = document.createElement("h2");
-            header.innerText = "Output";
-            status_msg = document.createElement("h3");
-            status_msg.innerText = data.status.message;
-            // create table
-            const table = document.createElement("table");
-            const thead = document.createElement("thead");
-            const tbody = document.createElement("tbody");
-            const headerRow = document.createElement("tr");
-            data.columns.forEach(column => {
-              const th = document.createElement("th");
-              th.innerText = column;
-              headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            data.result.forEach(row => {
-              const tr = document.createElement("tr");
-              row.forEach(cell => {
-                const td = document.createElement("td");
-                td.innerText = cell;
-                tr.appendChild(td);
-              });
-              tbody.appendChild(tr);
-            });
-            table.appendChild(thead);
-            table.appendChild(tbody);
-            // Expected output table
-            const expectedTable = document.createElement("table");
-            const expectedThead = document.createElement("thead");
-            const expectedTbody = document.createElement("tbody");
-            const expectedHeaderRow = document.createElement("tr");
-            data.tc_columns.forEach(column => {
-              const th = document.createElement("th");
-              th.innerText = column;
-              expectedHeaderRow.appendChild(th);
-            });
-            expectedThead.appendChild(expectedHeaderRow);
-            data.tc_result.forEach(row => {
-              const tr = document.createElement("tr");
-              row.forEach(cell => {
-                const td = document.createElement("td");
-                td.innerText = cell;
-                tr.appendChild(td);
-              });
-              expectedTbody.appendChild(tr);
-            });
-            expectedTable.appendChild(expectedThead);
-            expectedTable.appendChild(expectedTbody);
-            // Append the output table and expected output table to the resultDiv
-            document.getElementById("resultDiv").innerHTML = ""; // Clear previous results
-            document.getElementById("resultDiv").appendChild(header); // Append the header
-            document.getElementById("resultDiv").appendChild(status_msg); // Append the status message
-            document.getElementById("resultDiv").appendChild(table); // Append the new table
-            header2 = document.createElement("h2");
-            header2.innerText = "Expected Output";
-            document.getElementById("resultDiv").appendChild(header2); // Append the expected output header
-            document.getElementById("resultDiv").appendChild(expectedTable); // Append the expected output table
-          })
-          .catch(error => {
-            console.error("Error:", error);
-          });
-        });
-    
-        // CSRF helper
-        function getCookie(name) {
-          let cookieValue = null;
-          if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-              const cookie = cookies[i].trim();
-              if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-              }
-            }
-          }
-          return cookieValue;
-        }
-      </script>
-      <!-- Load Monaco Editor from CDN -->
-<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
-<script>
-  require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' }});
+</style>
 
-  require(['vs/editor/editor.main'], function () {
-    monaco.editor.create(document.getElementById('editor'), {
-      value: [
-        'SELECT * FROM your_table_name;',
-      ].join('\n'),
-      language: 'sql',
-      theme: 'vs-dark'
-    });
-  });
-</script>
+<div class="main bg-stone-900 flex flex-col lg:flex-row">
+  <div class="w-full lg:w-1/2 p-4 flex-col">
+    <div class="flex flex-col sm:flex-row justify-between p-2 mr-0 lg:mr-6 items-start sm:items-center bg-stone-800 rounded-md shadow-md">
+      <h1 class="text-left text-xl font-bold text-stone-100">{{question.title}}</h1>
+      <div class="text-left sm:text-right mt-2 sm:mt-0">
+        {% if status == 'Solved' %}
+        <span class="text-gray-500">Solved ✅</span>
+        {% elif status == 'Attempted' %}
+        <span class="text-gray-500">Attempted ⏳</span>
+        {% else %}
+        <span class="text-gray-500">❓</span>
+        {% endif %}
+      </div>
+    </div>
+    
+
+    <div class="description prose-invert overflow-y-auto max-h-[60vh] custom-scrollbar mt-4
+    shadow-md hover:shadow-[0_0_10px_3px_rgba(129,140,248,0.7)] drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)] transition duration-300">
+      {{question_description |safe}}
+    </div>
+    <label class="mt-4 inline-block bg-indigo-600 text-white rounded-full px-3 py-1 text-sm shadow hover:bg-indigo-500 transition">
+      {{ question.tags }}
+    </label>
+  </div>
+
+  <div class="code-section w-full lg:w-1/2 p-4">
+    <form id="codeForm" class="mt-4">
+      {% csrf_token %}
+      <div id="editor-container" class="font-handwriting">
+        <textarea 
+          name="user_code" 
+          id="user_code"
+          rows="14"
+          placeholder="Write your code here..."
+          class="w-full h-full resize-none p-4 text-lg rounded-md border border-stone-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-stone-800 text-stone-100 shadow-lg scroll-auto custom-scrollbar"
+        ></textarea>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-between items-center mt-4 space-y-2 sm:space-y-0">
+        {% if request.user.is_authenticated %}
+        <button id="run-btn" type="submit" class="w-full sm:w-auto bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded">Run</button>
+        <button id="submit-btn" class="w-full sm:w-auto bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded sm:ml-2 drop-shadow-[0_4px_6px_rgba(99,102,241,0.5)] hover:drop-shadow-[0_6px_10px_rgba(99,102,241,0.7)]">Submit</button>
+        {% else %}
+        <a href="{% url 'login' %}" class="w-full sm:w-auto text-center bg-stone-700 hover:bg-stone-800 text-indigo-300 hover:text-indigo-500 px-6 py-2 rounded">🔐Login to run queries</a>
+        {% endif %}
+      </div>
+    </form>
+
+    <div class="output mt-6" id="resultDiv"></div>
+    <div id="result-section" class="mt-6 text-sm space-y-2"></div>
+  </div>
+</div>
+<!-- END OF MAIN DIV CLASS -->
+<!-- JAVASCRIPT -->
+{% block scripts %}
+
+<script>
+
+document.getElementById("resultDiv").classList.add("bg-gray-100", "p-4", "rounded", "mt-4");
+// result div tables
+document.getElementById("resultDiv").classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'my-4');
+    // Add a scrollbar for long content
+    document.getElementById("resultDiv").style.overflowY = 'auto';
+    document.getElementById("resultDiv").style.maxHeight = '600px'; // Set a max height for the description div
+
+document.getElementById("codeForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    console.log("inside codeForm JS");
+    const code = document.getElementById("user_code").value;
+    const formData = new FormData();
+    formData.append("user_code", code);
+    const action = e.submitter.id;
+    console.log("Action:", action);
+    if (action === "run-btn") {
+        // Handle run button click
+        console.log("Run button clicked");
+        fetch("{% url 'practice:run_code' question.qid %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+        // console.log(data.result)
+        // console.log(data.columns);
+        
+        status_msg = document.createElement("h3");
+        if (data.status.code === 200) {
+            status_msg.classList.add("bg-green-600", "text-white", "p-2", "rounded", "mb-4", "font-semibold");
+        } else {
+            status_msg.classList.add( "bg-red-600", "text-white", "p-2", "rounded", "mb-4", "font-semibold");
+        }
+        status_msg.innerText = data.status.message;
+        header = document.createElement("h2");
+        header.innerText = "Output";
+        
+        // create table
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+        const headerRow = document.createElement("tr");
+        data.columns.forEach(column => {
+            const th = document.createElement("th");
+            th.innerText = column;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        data.result.forEach(row => {
+            const tr = document.createElement("tr");
+            row.forEach(cell => {
+            const td = document.createElement("td");
+            td.innerText = cell;
+            tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        // Add classes to the table for styling
+        table.classList.add('min-w-full', 'border-collapse', 'border', 'border-gray-300', 'rounded-lg', 'shadow-md', 'my-4');
+        table.querySelectorAll('th').forEach(th => {
+            th.classList.add('px-4', 'py-2', 'bg-gray-200', 'text-left', 'font-semibold');
+        });
+        table.querySelectorAll('td').forEach(td => {
+            td.classList.add('px-4', 'py-1', 'border-t', 'border-gray-300');
+        });
+        // Expected output table
+        const expectedTable = document.createElement("table");
+        const expectedThead = document.createElement("thead");
+        const expectedTbody = document.createElement("tbody");
+        const expectedHeaderRow = document.createElement("tr");
+        data.tc_columns.forEach(column => {
+            const th = document.createElement("th");
+            th.innerText = column;
+            expectedHeaderRow.appendChild(th);
+        });
+        expectedThead.appendChild(expectedHeaderRow);
+        data.tc_result.forEach(row => {
+            const tr = document.createElement("tr");
+            row.forEach(cell => {
+            const td = document.createElement("td");
+            td.innerText = cell;
+            tr.appendChild(td);
+            });
+            expectedTbody.appendChild(tr);
+        });
+        expectedTable.appendChild(expectedThead);
+        expectedTable.appendChild(expectedTbody);
+        // Add classes to the table for styling
+        expectedTable.classList.add('min-w-full', 'border-collapse', 'border', 'border-gray-300', 'rounded-lg', 'shadow-md', 'my-4');
+        expectedTable.querySelectorAll('th').forEach(th => {
+            th.classList.add('px-4', 'py-2', 'bg-gray-300', 'text-left', 'font-semibold');
+        });
+        expectedTable.querySelectorAll('td').forEach(td => {
+            td.classList.add('px-4', 'py-1', 'border-t', 'border-gray-400');
+        });
+        // Append the output table and expected output table to the resultDiv
+        document.getElementById("resultDiv").innerHTML = ""; // Clear previous results
+        document.getElementById("resultDiv").appendChild(header); // Append the header
+        document.getElementById("resultDiv").appendChild(status_msg); // Append the status message
+        document.getElementById("resultDiv").appendChild(table); // Append the new table
+        header2 = document.createElement("h2");
+        header2.innerText = "Expected Output";
+        document.getElementById("resultDiv").appendChild(header2); // Append the expected output header
+        document.getElementById("resultDiv").appendChild(expectedTable); // Append the expected output table
+        })
+        .catch(error => {
+        console.error("Error:", error);
+        });
+    } // END OF RUN-BTN
+    else if (action === "submit-btn") {
+        // Handle submit button click
+        console.log("Submit button clicked");
+        fetch("{% url 'practice:submit_code' question.qid %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.code === 400) {
+                status_msg = document.createElement("h3");
+                status_msg.classList.add( "bg-red-600", "text-white", "p-2", "rounded", "mb-4", "font-semibold");
+                status_msg.innerText = data.message;
+                header = document.createElement("h2");
+            header.innerText = "Output";
+            result_op = document.getElementById("resultDiv");
+            result_op.innerHTML = ""; // Clear previous results
+            result_op.appendChild(header); // Append the header
+            result_op.appendChild(status_msg); // Append the status message
+
+            } 
+            else {
+                test_case_container = document.createElement("div");
+                test_case_container.classList.add("bg-gray-100", "p-4", "rounded", "mt-4");
+                data.test_case_results.forEach(tc => {
+                    console.log(tc);
+                    status_msg = document.createElement("h3");
+                    status_msg.innerText = tc.message;
+                    test_case_container.appendChild(status_msg); // Append the status message for each test case
+                });
+                result_op = document.getElementById("resultDiv");
+                result_op.innerHTML = ""; // Clear previous results
+                result_op.appendChild(test_case_container); // Append the test case results container
+            }
+            
+            
+        })
+    } // END OF SUBMIT-BTN
+});
+
+
+
+
+
+
+// CSRF helper
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+        }
+    }
+    }
+    return cookieValue;
+}
+
+ </script>
+{% endblock %}
+<!-- End of JAVASCRIPT -->
+{% endblock %}

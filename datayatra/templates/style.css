@@ -1,0 +1,43 @@
+ .navbar-custom {
+    background: rgba(15, 23, 42, 0.75); /* Dark blue, semi-transparent */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .navbar-custom .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    position: relative;
+    padding-bottom: 8px;
+  }
+
+  .navbar-custom .nav-link:hover,
+  .navbar-custom .nav-link.active {
+    color: #fff;
+  }
+
+  /* Underline glow effect */
+  .navbar-custom .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    transition: width 0.3s ease;
+    border-radius: 2px;
+    box-shadow: 0 0 10px #8b5cf6, 0 0 5px #8b5cf6;
+  }
+
+  .navbar-custom .nav-link:hover::after,
+  .navbar-custom .nav-link.active::after {
+    width: 60%;
+  }
+
+  .dropdown-menu {
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }

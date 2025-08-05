@@ -15,7 +15,6 @@ from django.views.decorators.csrf import csrf_exempt
 import time
 
 
-
 def checktestcase(user_code, query, setup, i):
     """
     Check User code against test cases.
